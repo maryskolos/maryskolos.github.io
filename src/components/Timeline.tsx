@@ -144,6 +144,7 @@ export default function Timeline() {
             <Paper
               sx={{
                 ...commonStyles.paper,
+                textAlign: 'left',
                 borderLeft: `4px solid ${getTypeColor(item.type)}`,
                 position: 'relative',
                 ...commonStyles.hover.paper
