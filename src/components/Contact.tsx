@@ -1,11 +1,15 @@
 'use client';
 
-import { Box, Typography, Paper, Button, Grid } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import { LinkedIn, Email, Download } from '@mui/icons-material';
+import { commonStyles } from '@/styles/commonStyles';
+import { emailUtils } from '@/utils/email';
+
+const CONTACT_EMAIL = 'maryskolos@gmail.com';
 
 export default function Contact() {
   return (
-    <Box sx={{ py: 8 }}>
+    <Box sx={commonStyles.section}>
       <Typography variant="h2" component="h2" gutterBottom>
         Contact
       </Typography>
@@ -14,7 +18,7 @@ export default function Contact() {
         Get in touch with me for opportunities, collaborations, or just to say hello!
       </Typography>
       
-      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, gap: 3 }}>
+      <Box sx={commonStyles.grid.threeColumn}>
         <Button
           variant="contained"
           startIcon={<LinkedIn />}
@@ -22,14 +26,7 @@ export default function Contact() {
           target="_blank"
           rel="noopener noreferrer"
           fullWidth
-          sx={{
-            bgcolor: '#6d809f',
-            color: '#ffffff',
-            py: 2,
-            '&:hover': {
-              bgcolor: '#9ca0b9',
-            }
-          }}
+          sx={commonStyles.button.primary}
         >
           LinkedIn Profile
         </Button>
@@ -38,19 +35,11 @@ export default function Contact() {
           variant="contained"
           startIcon={<Email />}
           onClick={() => {
-            // Try to open default email client
-            const mailtoLink = 'mailto:maryskolos@gmail.com?subject=Hello from your website';
-            window.open(mailtoLink, '_blank');
+            const template = emailUtils.templates.general(CONTACT_EMAIL);
+            emailUtils.openEmailClient(template.email, template.subject, template.body);
           }}
           fullWidth
-          sx={{
-            bgcolor: '#6d809f',
-            color: '#ffffff',
-            py: 2,
-            '&:hover': {
-              bgcolor: '#9ca0b9',
-            }
-          }}
+          sx={commonStyles.button.primary}
         >
           Send Email
         </Button>
@@ -61,14 +50,7 @@ export default function Contact() {
           href="/resume.pdf"
           target="_blank"
           fullWidth
-          sx={{
-            bgcolor: '#6d809f',
-            color: '#ffffff',
-            py: 2,
-            '&:hover': {
-              bgcolor: '#9ca0b9',
-            }
-          }}
+          sx={commonStyles.button.primary}
         >
           Download Resume
         </Button>

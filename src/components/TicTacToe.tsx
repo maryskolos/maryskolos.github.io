@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Box, Typography, Button, Paper } from '@mui/material';
 import { Close, RadioButtonUnchecked } from '@mui/icons-material';
+import { commonStyles } from '@/styles/commonStyles';
+import { theme } from '@/constants/theme';
 
 export default function TicTacToe() {
   const [board, setBoard] = useState<("X" | "O" | null)[]>(Array(9).fill(null));
@@ -47,7 +49,7 @@ export default function TicTacToe() {
       return;
     }
 
-    setXIsNext(false); // AI's turn
+    setXIsNext(false);
   };
 
   const resetGame = () => {
@@ -57,9 +59,8 @@ export default function TicTacToe() {
     setWinner(null);
   };
 
-  // AI move logic
   const pickAiMove = (squares: ("X" | "O" | null)[]): number | null => {
-    // 1) Check if AI can win
+    // Check if AI can win
     for (let idx = 0; idx < squares.length; idx++) {
       if (squares[idx] === null) {
         const testSquares = squares.slice();
@@ -70,7 +71,7 @@ export default function TicTacToe() {
       }
     }
 
-    // 2) Block player from winning
+    // Block player from winning
     for (let idx = 0; idx < squares.length; idx++) {
       if (squares[idx] === null) {
         const testSquares = squares.slice();
@@ -81,16 +82,16 @@ export default function TicTacToe() {
       }
     }
 
-    // 3) Take center
+    // Take center
     if (squares[4] === null) return 4;
 
-    // 4) Take a corner
+    // Take a corner
     const corners = [0, 2, 6, 8];
     for (const corner of corners) {
       if (squares[corner] === null) return corner;
     }
 
-    // 5) Take a side
+    // Take a side
     const sides = [1, 3, 5, 7];
     for (const side of sides) {
       if (squares[side] === null) return side;
@@ -99,11 +100,9 @@ export default function TicTacToe() {
     return null;
   };
 
-  // Trigger AI move after user's move
   useEffect(() => {
     if (gameOver) return;
 
-    // If it's O's turn, have AI move
     if (!xIsNext) {
       setAiThinking(true);
       const timer = setTimeout(() => {
@@ -132,8 +131,19 @@ export default function TicTacToe() {
     }
   }, [xIsNext, gameOver]);
 
+  const getStatusText = () => {
+    if (winner) return `Winner: ${winner}`;
+    return xIsNext ? 'Your turn' : 'Computer is thinking...';
+  };
+
+  const getCellColor = (cell: "X" | "O" | null) => {
+    if (cell === 'X') return theme.colors.accent.purple;
+    if (cell === 'O') return theme.colors.primary.light;
+    return theme.colors.primary.light;
+  };
+
   return (
-    <Box sx={{ py: 8 }}>
+    <Box sx={commonStyles.section}>
       <Typography variant="h2" component="h2" gutterBottom>
         Interactive Tic-Tac-Toe
       </Typography>
@@ -144,17 +154,17 @@ export default function TicTacToe() {
       
       <Paper 
         sx={{ 
-          p: 4, 
+          ...commonStyles.paper,
+          p: 4,
           textAlign: 'center',
           border: '2px solid',
-          borderColor: '#496c99', // Deep steel blue border
-          bgcolor: '#0a0a1a', // Slightly lighter navy background
-          maxWidth: 400, // Limit the width
-          mx: 'auto', // Center the game board
+          borderColor: theme.colors.border.primary,
+          maxWidth: 400,
+          mx: 'auto',
         }}
       >
-        <Typography variant="h5" gutterBottom sx={{ color: '#ffffff', mb: 3 }}>
-          {winner ? `Winner: ${winner}` : xIsNext ? 'Your turn' : 'Computer is thinking...'}
+        <Typography variant="h5" gutterBottom sx={{ color: theme.colors.text.primary, mb: 3 }}>
+          {getStatusText()}
         </Typography>
         
         <Box sx={{ 
@@ -176,20 +186,20 @@ export default function TicTacToe() {
                 height: 70,
                 fontSize: '1.5rem',
                 fontWeight: 'bold',
-                color: cell === 'X' ? '#8a2be2' : '#9ca0b9', // Vibrant purple for X, light lavender-gray for O
-                borderColor: '#496c99', // Deep steel blue border
-                bgcolor: '#0a0a1a', // Slightly lighter navy background
-                minWidth: 'unset', // Override Material-UI default min-width
+                color: getCellColor(cell),
+                borderColor: theme.colors.border.primary,
+                bgcolor: theme.colors.background.paper,
+                minWidth: 'unset',
                 '&:hover': {
-                  borderColor: '#6d809f', // Medium slate blue on hover
-                  bgcolor: '#04040c', // Deep navy on hover
+                  borderColor: theme.colors.primary.main,
+                  bgcolor: theme.colors.background.default,
                 }
               }}
             >
               {cell === 'X' ? (
-                <Close sx={{ fontSize: 32, color: '#8a2be2' }} /> // Vibrant purple for X
+                <Close sx={{ fontSize: commonStyles.icon.small, color: theme.colors.accent.purple }} />
               ) : cell === 'O' ? (
-                <RadioButtonUnchecked sx={{ fontSize: 32, color: '#9ca0b9' }} /> // Light lavender-gray for O
+                <RadioButtonUnchecked sx={{ fontSize: commonStyles.icon.small, color: theme.colors.primary.light }} />
               ) : null}
             </Button>
           ))}
@@ -199,13 +209,9 @@ export default function TicTacToe() {
           variant="contained" 
           onClick={resetGame}
           sx={{ 
-            bgcolor: '#6d809f', // Medium slate blue background
-            color: '#ffffff', // White text
-            px: 3, // Add horizontal padding
-            py: 1.5, // Add vertical padding
-            '&:hover': {
-              bgcolor: '#9ca0b9', // Light lavender-gray on hover
-            }
+            ...commonStyles.button.primary,
+            px: 3,
+            py: 1.5,
           }}
         >
           Reset Game

@@ -12,17 +12,12 @@ body {
   color: #f8f9fa;
 }
 
-body {
-  color: #f8f9fa;
-  background: #04040c;
-}
-
 a {
   color: inherit;
   text-decoration: none;
 }
 
-/* Sequential fade-in animations for all sections */
+/* Sequential fade-in animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -34,37 +29,31 @@ a {
   }
 }
 
-/* Header loads first */
 .fade-in-header {
   animation: fadeInUp 1s ease-out 0.2s forwards;
   opacity: 0;
 }
 
-/* About section loads second */
 .fade-in-about {
   animation: fadeInUp 1s ease-out 0.8s forwards;
   opacity: 0;
 }
 
-/* Skills section loads third */
 .fade-in-skills {
   animation: fadeInUp 1s ease-out 1.4s forwards;
   opacity: 0;
 }
 
-/* Timeline section loads fourth */
 .fade-in-timeline {
   animation: fadeInUp 1s ease-out 2s forwards;
   opacity: 0;
 }
 
-/* Game section loads fifth */
 .fade-in-game {
   animation: fadeInUp 1s ease-out 2.6s forwards;
   opacity: 0;
 }
 
-/* Contact section loads last */
 .fade-in-contact {
   animation: fadeInUp 1s ease-out 3.2s forwards;
   opacity: 0;

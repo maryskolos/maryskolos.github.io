@@ -4,7 +4,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Outfit, Space_Grotesk } from 'next/font/google';
 
-// Load the fonts
 const outfit = Outfit({ 
   subsets: ['latin'],
   display: 'swap',
@@ -17,80 +16,79 @@ const spaceGrotesk = Space_Grotesk({
   variable: '--font-space-grotesk'
 });
 
-// Create a warm, natural theme with high contrast
 const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#6d809f', // Medium slate blue for primary
-      light: '#9ca0b9', // Light lavender-gray for lighter variations
-      dark: '#496c99', // Deep steel blue for darker variations
-      contrastText: '#ffffff', // White text for maximum contrast
+      main: '#6d809f',
+      light: '#9ca0b9',
+      dark: '#496c99',
+      contrastText: '#ffffff',
     },
     secondary: {
-      main: '#9ca0b9', // Light lavender-gray for secondary
-      light: '#e8e9ea', // Very light gray for lighter variations
-      dark: '#6d809f', // Medium slate blue for darker variations
-      contrastText: '#04040c', // Dark text for contrast on light backgrounds
+      main: '#9ca0b9',
+      light: '#e8e9ea',
+      dark: '#6d809f',
+      contrastText: '#04040c',
     },
     background: {
-      default: '#04040c', // Deep navy for main background
-      paper: '#0a0a1a', // Slightly lighter navy for cards/panels
+      default: '#04040c',
+      paper: '#0a0a1a',
     },
     text: {
-      primary: '#ffffff', // Pure white for primary text
-      secondary: '#e8e9ea', // Very light gray for secondary text
+      primary: '#ffffff',
+      secondary: '#e8e9ea',
     },
-    divider: '#496c99', // Deep steel blue for dividers
+    divider: '#496c99',
     action: {
-      active: '#6d809f', // Medium slate blue for active states
-      hover: '#9ca0b9', // Light lavender-gray for hover states
-      selected: '#496c99', // Deep steel blue for selected states
+      active: '#6d809f',
+      hover: '#9ca0b9',
+      selected: '#496c99',
     },
   },
   typography: {
     fontFamily: 'var(--font-outfit), Inter, Arial, sans-serif',
     h1: {
       fontFamily: 'Syne, var(--font-space-grotesk), var(--font-outfit), Inter, Arial, sans-serif',
-      fontWeight: 700, // Increased weight for better contrast
+      fontWeight: 700,
       letterSpacing: '-0.01em',
-      color: '#ffffff', // Pure white for main headings
+      color: '#ffffff',
     },
     h2: {
       fontFamily: 'var(--font-space-grotesk), var(--font-outfit), Inter, Arial, sans-serif',
-      fontWeight: 600, // Increased weight for better contrast
-      color: '#ffffff', // Pure white for section headers
+      fontWeight: 600,
+      color: '#ffffff',
     },
     h3: {
       fontFamily: 'var(--font-space-grotesk), var(--font-outfit), Inter, Arial, sans-serif',
-      fontWeight: 600, // Increased weight for better contrast
-      color: '#ffffff', // Pure white for subsection headers
+      fontWeight: 600,
+      color: '#ffffff',
     },
     h4: {
       fontFamily: 'var(--font-outfit), Inter, Arial, sans-serif',
-      fontWeight: 500, // Increased weight for better contrast
-      color: '#e8e9ea', // Very light gray for smaller headers
+      fontWeight: 500,
+      color: '#e8e9ea',
     },
     h5: {
       fontFamily: 'var(--font-outfit), Inter, Arial, sans-serif',
-      fontWeight: 500, // Increased weight for better contrast
-      color: '#e8e9ea', // Very light gray for smaller headers
+      fontWeight: 500,
+      color: '#e8e9ea',
     },
     h6: {
       fontFamily: 'var(--font-outfit), Inter, Arial, sans-serif',
-      fontWeight: 500, // Increased weight for better contrast
-      color: '#e8e9ea', // Very light gray for smaller headers
+      fontWeight: 500,
+      color: '#e8e9ea',
     },
     body1: {
       fontFamily: 'var(--font-outfit), Inter, Arial, sans-serif',
-      fontWeight: 400, // Increased weight for better contrast
-      color: '#f8f9fa', // Light gray for body text
+      fontWeight: 400,
+      color: '#f8f9fa',
       lineHeight: 1.6,
     },
     body2: {
       fontFamily: 'var(--font-outfit), Inter, Arial, sans-serif',
-      fontWeight: 400, // Increased weight for better contrast
-      color: '#e8e9ea', // Very light gray for secondary body text
+      fontWeight: 400,
+      color: '#e8e9ea',
       lineHeight: 1.5,
     },
   },
@@ -98,24 +96,24 @@ const theme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: '#0a0a1a', // Slightly lighter navy for paper elements
-          borderColor: '#496c99', // Deep steel blue for paper borders
+          backgroundColor: '#0a0a1a',
+          borderColor: '#496c99',
         },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: '#0a0a1a', // Slightly lighter navy for cards
-          borderColor: '#496c99', // Deep steel blue for card borders
+          backgroundColor: '#0a0a1a',
+          borderColor: '#496c99',
         },
       },
     },
     MuiChip: {
       styleOverrides: {
         root: {
-          backgroundColor: '#0a0a1a', // Slightly lighter navy for chip backgrounds
-          color: '#e8e9ea', // Very light gray for chip text
+          backgroundColor: '#0a0a1a',
+          color: '#e8e9ea',
         },
       },
     },

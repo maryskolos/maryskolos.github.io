@@ -1,12 +1,56 @@
 'use client';
 
-import { Box, Typography, Paper, Chip, Button } from '@mui/material';
-import { TrendingUp, Group, Code, Psychology, Email, Work, Cloud, Security } from '@mui/icons-material';
+import { Box, Typography, Paper, Button } from '@mui/material';
+import { TrendingUp, Group, Code, Work, Cloud, Security } from '@mui/icons-material';
 import AnimatedCounter from '@/components/AnimatedCounter';
+import { commonStyles } from '@/styles/commonStyles';
+import { emailUtils } from '@/utils/email';
+import { theme } from '@/constants/theme';
+
+const CONTACT_EMAIL = 'maryskolos@gmail.com';
+
+const skillBlocks = [
+  {
+    icon: Work,
+    iconColor: theme.colors.primary.main,
+    title: <AnimatedCounter target={5} suffix="" />,
+    subtitle: 'Years Experience',
+  },
+  {
+    icon: Code,
+    iconColor: theme.colors.primary.light,
+    title: 'Agile & TDD',
+    subtitle: 'Development Practices',
+  },
+  {
+    icon: Group,
+    iconColor: theme.colors.primary.dark,
+    title: 'Toastmasters',
+    subtitle: 'Public Speaking Excellence',
+  },
+  {
+    icon: TrendingUp,
+    iconColor: theme.colors.primary.main,
+    title: 'Full Stack Developer',
+    subtitle: 'PHP, JavaScript, React, Python',
+  },
+  {
+    icon: Cloud,
+    iconColor: theme.colors.primary.light,
+    title: 'Cloud & DevOps',
+    subtitle: 'AWS, Elasticsearch, Redis, CI/CD',
+  },
+  {
+    icon: Security,
+    iconColor: theme.colors.primary.dark,
+    title: 'Security & Quality',
+    subtitle: 'OWASP Certified, Testing, Best Practices',
+  },
+];
 
 export default function AboutMe() {
   return (
-    <Box sx={{ py: 8 }}>
+    <Box sx={commonStyles.section}>
       <Typography variant="h2" component="h2" gutterBottom>
         About Me
       </Typography>
@@ -20,84 +64,49 @@ export default function AboutMe() {
         I enjoy spending my time learning about new coding tools, including AI.
       </Typography>
       
-      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(3, 1fr)' }, gap: 3, mb: 4 }}>
-        <Paper sx={{ p: 3, textAlign: 'center', bgcolor: '#0a0a1a', border: '1px solid', borderColor: '#496c99' }}>
-          <Work sx={{ fontSize: 60, mb: 2, color: '#6d809f' }} />
-          <AnimatedCounter target={5} suffix="" />
-          <Typography variant="body2" sx={{ color: '#e8e9ea' }}>Years Experience</Typography>
-        </Paper>
-        <Paper sx={{ p: 3, textAlign: 'center', bgcolor: '#0a0a1a', border: '1px solid', borderColor: '#496c99' }}>
-          <Code sx={{ fontSize: 60, mb: 2, color: '#9ca0b9' }} />
-          <Typography variant="h6" sx={{ color: '#ffffff', mb: 1 }}>Agile & TDD</Typography>
-          <Typography variant="body2" sx={{ color: '#e8e9ea' }}>Development Practices</Typography>
-        </Paper>
-        <Paper sx={{ p: 3, textAlign: 'center', bgcolor: '#0a0a1a', border: '1px solid', borderColor: '#496c99' }}>
-          <Group sx={{ fontSize: 60, mb: 2, color: '#496c99' }} />
-          <Typography variant="h6" sx={{ color: '#ffffff', mb: 1 }}>Toastmasters</Typography>
-          <Typography variant="body2" sx={{ color: '#e8e9ea' }}>Public Speaking Excellence</Typography>
-        </Paper>
-        <Paper sx={{ p: 3, textAlign: 'center', bgcolor: '#0a0a1a', border: '1px solid', borderColor: '#496c99' }}>
-          <TrendingUp sx={{ fontSize: 60, mb: 2, color: '#6d809f' }} />
-          <Typography variant="h6" sx={{ color: '#ffffff', mb: 1 }}>Full Stack Developer</Typography>
-          <Typography variant="body2" sx={{ color: '#e8e9ea' }}>PHP, JavaScript, React, Python</Typography>
-        </Paper>
-        <Paper sx={{ p: 3, textAlign: 'center', bgcolor: '#0a0a1a', border: '1px solid', borderColor: '#496c99' }}>
-          <Cloud sx={{ fontSize: 60, mb: 2, color: '#9ca0b9' }} />
-          <Typography variant="h6" sx={{ color: '#ffffff', mb: 1 }}>Cloud & DevOps</Typography>
-          <Typography variant="body2" sx={{ color: '#e8e9ea' }}>AWS, Elasticsearch, Redis, CI/CD</Typography>
-        </Paper>
-        <Paper sx={{ p: 3, textAlign: 'center', bgcolor: '#0a0a1a', border: '1px solid', borderColor: '#496c99' }}>
-          <Security sx={{ fontSize: 60, mb: 2, color: '#496c99' }} />
-          <Typography variant="h6" sx={{ color: '#ffffff', mb: 1 }}>Security & Quality</Typography>
-          <Typography variant="body2" sx={{ color: '#e8e9ea' }}>OWASP Certified, Testing, Best Practices</Typography>
-        </Paper>
+      <Box sx={{ ...commonStyles.grid.responsive, mb: 4 }}>
+        {skillBlocks.map((block, index) => (
+          <Paper key={index} sx={commonStyles.paper}>
+            <block.icon sx={{ fontSize: commonStyles.icon.large, mb: 2, color: block.iconColor }} />
+            {typeof block.title === 'string' ? (
+              <Typography variant="h6" sx={{ color: theme.colors.text.primary, mb: 1 }}>
+                {block.title}
+              </Typography>
+            ) : (
+              block.title
+            )}
+            <Typography variant="body2" sx={{ color: theme.colors.text.secondary }}>
+              {block.subtitle}
+            </Typography>
+          </Paper>
+        ))}
       </Box>
       
-      {/* References Available Section - Full Width */}
       <Box sx={{ mt: 4, gridColumn: '1 / -1' }}>
         <Paper 
           sx={{ 
-            p: 4, 
-            textAlign: 'center',
-            bgcolor: '#0a0a1a', // Slightly lighter navy background
-            border: '1px solid',
-            borderColor: '#496c99', // Deep steel blue border
+            ...commonStyles.paper,
+            p: 4,
             transition: 'all 0.3s ease',
             '&:hover': {
-              boxShadow: '0 8px 25px rgba(73, 108, 153, 0.2)', // Deep steel blue shadow
+              boxShadow: theme.shadows.light,
             }
           }}
         >
-          <Typography variant="h5" gutterBottom sx={{ color: '#ffffff', mb: 2 }}>
+          <Typography variant="h5" gutterBottom sx={{ color: theme.colors.text.primary, mb: 2 }}>
             References Available
           </Typography>
-          <Typography variant="body1" sx={{ color: '#e8e9ea', mb: 3 }}>
+          <Typography variant="body1" sx={{ color: theme.colors.text.secondary, mb: 3 }}>
             Professional references and recommendations are available upon request.
           </Typography>
           <Button
             variant="contained"
-            startIcon={<Email />}
+            startIcon={<Work />}
             onClick={() => {
-              // Try to open default email client
-              const mailtoLink = 'mailto:maryskolos@gmail.com?subject=Reference Request';
-              window.open(mailtoLink, '_blank');
+              const template = emailUtils.templates.reference(CONTACT_EMAIL);
+              emailUtils.openEmailClient(template.email, template.subject, template.body);
             }}
-            sx={{
-              bgcolor: '#6d809f', // Medium slate blue background
-              color: '#ffffff', // White text
-              px: 4,
-              py: 1.5,
-              fontSize: '1.1rem',
-              fontWeight: 500,
-              border: '2px solid',
-              borderColor: '#6d809f',
-              '&:hover': {
-                bgcolor: '#9ca0b9', // Light lavender-gray on hover
-                borderColor: '#9ca0b9',
-                transform: 'scale(1.05)',
-              },
-              transition: 'all 0.2s ease-in-out',
-            }}
+            sx={commonStyles.button.secondary}
           >
             Request References
           </Button>
