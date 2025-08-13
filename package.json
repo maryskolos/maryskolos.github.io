@@ -1,12 +1,14 @@
 {
-  "name": "personal-resume-website",
+  "name": "maryskolos.github.io",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next build",
+    "deploy": "npm run export"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

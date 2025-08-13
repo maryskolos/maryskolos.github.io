@@ -21,7 +21,9 @@ const syne = Syne({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://your-domain.com'),
+  metadataBase: new URL(process.env.NODE_ENV === 'production' 
+    ? 'https://maryskolos.github.io' 
+    : 'http://localhost:3000'),
   title: {
     default: "Personal Resume Website",
     template: "%s | Personal Resume Website",
@@ -37,11 +39,13 @@ export const metadata: Metadata = {
     'portfolio',
     'resume',
   ],
-  authors: [{ name: 'Your Name' }],
-  creator: 'Your Name',
+  authors: [{ name: 'Mary Skolos' }],
+  creator: 'Mary Skolos',
   openGraph: {
     type: 'website',
-    url: 'https://your-domain.com',
+    url: process.env.NODE_ENV === 'production' 
+      ? 'https://maryskolos.github.io' 
+      : 'http://localhost:3000',
     title: 'Personal Resume Website',
     description: 'Professional resume and portfolio website showcasing software development skills and experience',
     siteName: 'Personal Resume Website',
