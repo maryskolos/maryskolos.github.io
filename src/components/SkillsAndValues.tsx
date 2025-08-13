@@ -51,9 +51,7 @@ export default function SkillsAndValues() {
         Skills and Values
       </Typography>
       
-      <Typography variant="body1" sx={{ mb: 4 }}>
-        Here are the key skills and values that drive my professional approach:
-      </Typography>
+
       
       <Box sx={commonStyles.grid.responsive}>
         {skills.map((skill, index) => (

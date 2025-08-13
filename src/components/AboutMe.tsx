@@ -59,11 +59,6 @@ export default function AboutMe() {
         Passionate software developer with 5 years of experience in SaaS and e-commerce environments
       </Typography>
       
-      <Typography variant="body1" sx={{ mb: 4 }}>
-        I coordinate large-scale projects and manage junior developers with a passion for games such as Magic the Gathering and D&D. 
-        I enjoy spending my time learning about new coding tools, including AI.
-      </Typography>
-      
       <Box sx={{ ...commonStyles.grid.responsive, mb: 4 }}>
         {skillBlocks.map((block, index) => (
           <Paper key={index} sx={commonStyles.paper}>
