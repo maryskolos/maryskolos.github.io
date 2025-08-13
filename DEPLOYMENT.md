@@ -51,12 +51,17 @@ https://maryskolos.github.io
    - Ensure all dependencies are properly installed
    - Verify Node.js version compatibility (18+)
 
-2. **Site Not Loading**
+2. **Permission Errors**
+   - The new workflow uses GitHub's official Pages deployment action
+   - No need to create gh-pages branch manually
+   - Permissions are automatically handled by GitHub
+
+3. **Site Not Loading**
    - Wait a few minutes after deployment (GitHub Pages can take time to propagate)
-   - Check if the `gh-pages` branch was created
+   - Check if the deployment completed successfully in Actions
    - Verify GitHub Pages is enabled in repository settings
 
-3. **404 Errors**
+4. **404 Errors**
    - Ensure the base path is correctly set in `next.config.ts` (should be empty for root domain)
    - Check that `trailingSlash: true` is enabled
    - Verify the repository name is exactly `maryskolos.github.io`
@@ -95,9 +100,8 @@ If the GitHub Action fails, you can deploy manually:
 To use a custom domain:
 
 1. Add your domain to the **Custom domain** field in GitHub Pages settings
-2. Update the `cname` field in `.github/workflows/deploy.yml`
-3. Update the metadata URLs in `src/app/layout.tsx`
-4. Add a `CNAME` file in your `public` folder with your domain
+2. Update the metadata URLs in `src/app/layout.tsx`
+3. Add a `CNAME` file in your `public` folder with your domain
 
 ## Updating Your Site
 
