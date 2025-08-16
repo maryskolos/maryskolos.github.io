@@ -38,7 +38,7 @@ export const getCommonStyles = (isDarkMode: boolean) => {
         '&:hover': {
           bgcolor: currentTheme.primary.light,
           borderColor: currentTheme.primary.light,
-          transform: 'scale(1.05)',
+          transform: { xs: 'none', sm: 'scale(1.05)' },
         },
         transition: 'all 0.2s ease-in-out',
       },
@@ -50,12 +50,12 @@ export const getCommonStyles = (isDarkMode: boolean) => {
           boxShadow: isDarkMode 
             ? '0 8px 25px rgba(73, 108, 153, 0.15)'
             : '0 8px 25px rgba(74, 144, 226, 0.15)',
-          transform: 'translateX(8px)',
+          transform: { xs: 'none', sm: 'translateX(8px)' },
         },
       },
       card: {
         '&:hover': {
-          transform: 'translateY(-4px)',
+          transform: { xs: 'none', sm: 'translateY(-4px)' },
           boxShadow: isDarkMode 
             ? '0 8px 25px rgba(109, 128, 159, 0.3)'
             : '0 8px 25px rgba(74, 144, 226, 0.3)',
@@ -99,9 +99,9 @@ export const getCommonStyles = (isDarkMode: boolean) => {
     // Common card styles to reduce duplication
     card: {
       scrollable: {
-        cursor: 'pointer',
+        cursor: { xs: 'default', sm: 'pointer' },
         '&:hover': {
-          transform: 'translateY(-4px)',
+          transform: { xs: 'none', sm: 'translateY(-4px)' },
           boxShadow: isDarkMode 
             ? '0 8px 25px rgba(109, 128, 159, 0.3)' 
             : '0 8px 25px rgba(74, 144, 226, 0.3)',

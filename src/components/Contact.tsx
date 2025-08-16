@@ -61,7 +61,14 @@ const getButtonContainerStyles = () => ({
   gap: 3, 
   flexWrap: 'nowrap',
   mt: 4,
-  width: '100%'
+  width: '100%',
+  // Remove hover effects on mobile
+  '& .MuiButton-root': {
+    cursor: { xs: 'default', sm: 'pointer' },
+    '&:hover': {
+      transform: { xs: 'none', sm: 'scale(1.05)' }
+    }
+  }
 });
 
 const getButtonStyles = () => ({
@@ -69,6 +76,10 @@ const getButtonStyles = () => ({
   py: 2,
   px: 3,
   minWidth: 0,
+  // Hide icons on mobile
+  '& .MuiButton-startIcon': {
+    display: { xs: 'none', sm: 'flex' }
+  }
 });
 
 const getDescriptionStyles = (isDarkMode: boolean) => {

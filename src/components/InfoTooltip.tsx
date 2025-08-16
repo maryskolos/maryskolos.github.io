@@ -22,6 +22,13 @@ export default function InfoTooltip({ content, children, position = 'top' }: Inf
   const handleToggle = () => setIsOpen(!isOpen);
   const handleClose = () => setIsOpen(false);
 
+  // Mobile-friendly event handlers
+  const handleTouchStart = () => setIsOpen(true);
+  const handleTouchEnd = () => {
+    // Keep tooltip open for a bit on mobile for better UX
+    setTimeout(() => setIsOpen(false), 2000);
+  };
+
   const getPositionStyles = () => {
     const baseStyles = { left: '50%', transform: 'translateX(-50%)' };
     
@@ -67,16 +74,26 @@ export default function InfoTooltip({ content, children, position = 'top' }: Inf
       position: 'absolute' as const,
       ...getPositionStyles(),
       zIndex: 9999,
-      minWidth: 400,
-      maxWidth: 700,
+      minWidth: { xs: 300, sm: 400 },
+      maxWidth: { xs: 350, sm: 700 },
       backgroundColor: displayIsDarkMode ? 'rgba(4, 4, 12, 0.98)' : 'rgba(255, 255, 255, 0.98)',
       border: `3px solid ${currentTheme.primary.main}`,
       borderRadius: theme.borderRadius.medium,
-      padding: 3,
+      padding: { xs: 2, sm: 3 },
       boxShadow: displayIsDarkMode 
         ? '0 12px 40px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.1)'
         : '0 12px 40px rgba(42, 42, 42, 0.2), 0 0 0 1px rgba(42, 42, 42, 0.1)',
       backdropFilter: 'blur(15px)',
+      // Mobile-specific adjustments
+      '@media (max-width: 600px)': {
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '90vw',
+        maxWidth: '350px',
+        zIndex: 10000,
+      },
       '&::before': {
         content: '""',
         position: 'absolute',
@@ -99,11 +116,16 @@ export default function InfoTooltip({ content, children, position = 'top' }: Inf
     return {
       color: currentTheme.text.primary,
       lineHeight: 1.6,
-      fontSize: '0.9rem',
+      fontSize: { xs: '0.8rem', sm: '0.9rem' },
       fontWeight: 400,
       textShadow: displayIsDarkMode 
         ? '0 1px 3px rgba(0,0,0,0.8)' 
         : '0 1px 3px rgba(255,255,255,0.8)',
+      // Mobile-specific text adjustments
+      '@media (max-width: 600px)': {
+        textAlign: 'center',
+        fontSize: '0.9rem',
+      }
     };
   };
 
@@ -113,11 +135,16 @@ export default function InfoTooltip({ content, children, position = 'top' }: Inf
         onMouseEnter={() => setIsOpen(true)}
         onMouseLeave={() => setIsOpen(false)}
         onClick={handleToggle}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
         sx={{
-          cursor: 'pointer',
+          cursor: { xs: 'default', sm: 'pointer' },
           display: 'block',
           width: '100%',
           height: '100%',
+          '&:hover': {
+            transform: { xs: 'none', sm: 'translateY(-2px)' }
+          }
         }}
       >
         {children}
