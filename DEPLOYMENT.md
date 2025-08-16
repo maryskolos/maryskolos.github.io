@@ -1,128 +1,99 @@
-# GitHub Pages Deployment Guide
+# Deployment Guide
 
-This guide will walk you through deploying your personal resume website to GitHub Pages.
+## Static Export Configuration
 
-## Prerequisites
+This project is configured for static export (`output: 'export'`) which generates static HTML files that can be deployed to any web server.
 
-- A GitHub account
-- Your website code pushed to a GitHub repository
-- Repository name: `maryskolos.github.io` (special name for root domain)
+## Security Headers
 
-## Step-by-Step Deployment
+Since this is a static export, security headers must be configured at the web server level. Here are the recommended security headers:
 
-### 1. Enable GitHub Pages
-
-1. Go to your repository on GitHub
-2. Click on **Settings** tab
-3. Scroll down to **Pages** section (in the left sidebar)
-4. Under **Source**, select **GitHub Actions**
-5. Click **Save**
-
-### 2. Push Your Code
-
-The GitHub Actions workflow will automatically trigger when you push to the `main` branch:
-
-```bash
-git add .
-git commit -m "Configure for GitHub Pages deployment"
-git push origin main
+### For Apache (.htaccess)
+```apache
+# Security Headers
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self';"
+Header always set X-Frame-Options "DENY"
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+Header always set X-XSS-Protection "1; mode=block"
 ```
 
-### 3. Monitor Deployment
-
-1. Go to **Actions** tab in your repository
-2. You should see a workflow called "Deploy to GitHub Pages" running
-3. Wait for it to complete (usually takes 2-3 minutes)
-4. Check the workflow logs if there are any errors
-
-### 4. Access Your Site
-
-Once deployment is complete, your site will be available at:
-```
-https://maryskolos.github.io
+### For Nginx
+```nginx
+# Security Headers
+add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self';" always;
+add_header X-Frame-Options "DENY" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+add_header X-XSS-Protection "1; mode=block" always;
 ```
 
-## Troubleshooting
+### For Netlify (netlify.toml)
+```toml
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self';"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    X-XSS-Protection = "1; mode=block"
+```
 
-### Common Issues
+### For Vercel (vercel.json)
+```json
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self';"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ]
+}
+```
 
-1. **Build Failures**
-   - Check the Actions tab for error logs
-   - Ensure all dependencies are properly installed
-   - Verify Node.js version compatibility (18+)
+## Build and Deploy
 
-2. **Permission Errors**
-   - The new workflow uses GitHub's official Pages deployment action
-   - No need to create gh-pages branch manually
-   - Permissions are automatically handled by GitHub
-
-3. **Site Not Loading**
-   - Wait a few minutes after deployment (GitHub Pages can take time to propagate)
-   - Check if the deployment completed successfully in Actions
-   - Verify GitHub Pages is enabled in repository settings
-
-4. **404 Errors**
-   - Ensure the base path is correctly set in `next.config.ts` (should be empty for root domain)
-   - Check that `trailingSlash: true` is enabled
-   - Verify the repository name is exactly `maryskolos.github.io`
-
-### Manual Deployment (Alternative)
-
-If the GitHub Action fails, you can deploy manually:
-
-1. Build the site locally:
+1. **Build the project:**
    ```bash
-   npm run export
+   npm run build
    ```
 
-2. Create and switch to gh-pages branch:
-   ```bash
-   git checkout -b gh-pages
-   ```
+2. **The static files will be generated in the `out/` directory**
 
-3. Copy the `out` folder contents to the root:
-   ```bash
-   cp -r out/* .
-   rm -rf out
-   ```
+3. **Deploy the contents of the `out/` directory to your web server**
 
-4. Commit and push:
-   ```bash
-   git add .
-   git commit -m "Manual deployment"
-   git push origin gh-pages
-   ```
+## Important Notes
 
-5. In repository settings, change Pages source to "Deploy from a branch" and select `gh-pages`
-
-## Custom Domain (Optional)
-
-To use a custom domain:
-
-1. Add your domain to the **Custom domain** field in GitHub Pages settings
-2. Update the metadata URLs in `src/app/layout.tsx`
-3. Add a `CNAME` file in your `public` folder with your domain
-
-## Updating Your Site
-
-To update your deployed site:
-
-1. Make your changes locally
-2. Test with `npm run dev`
-3. Commit and push to main branch
-4. The GitHub Action will automatically rebuild and deploy
-
-## Performance Tips
-
-- The static export generates optimized HTML, CSS, and JavaScript
-- Images are served directly from GitHub Pages
-- Consider using a CDN for better global performance
-- Enable GitHub Pages caching headers if needed
-
-## Support
-
-If you encounter issues:
-1. Check the GitHub Actions logs
-2. Review the Next.js static export documentation
-3. Open an issue in your repository
-4. Check GitHub Pages status page for service issues
+- Security headers are now handled at the web server level since Next.js static export doesn't support them
+- Make sure to configure the appropriate headers for your hosting platform
+- The `out/` directory contains all the static files needed for deployment
+- Test the security headers after deployment using browser developer tools or online security scanners

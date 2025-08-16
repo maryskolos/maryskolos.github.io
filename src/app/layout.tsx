@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Outfit, Space_Grotesk, Syne } from "next/font/google";
 import "./globals.css";
 import ThemeRegistry from '@/components/ThemeRegistry';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 const inter = Inter({ subsets: ["latin"] });
 const outfit = Outfit({ 
@@ -78,9 +79,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${spaceGrotesk.variable} ${syne.variable}`}>
       <body className={inter.className}>
-        <ThemeRegistry>
-          {children}
-        </ThemeRegistry>
+        <ThemeProvider>
+          <ThemeRegistry>
+            {children}
+          </ThemeRegistry>
+        </ThemeProvider>
       </body>
     </html>
   );

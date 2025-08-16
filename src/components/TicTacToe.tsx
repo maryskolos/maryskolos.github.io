@@ -3,25 +3,142 @@
 import { useState, useEffect } from 'react';
 import { Box, Typography, Button, Paper } from '@mui/material';
 import { Close, RadioButtonUnchecked } from '@mui/icons-material';
-import { commonStyles } from '@/styles/commonStyles';
+import { getCommonStyles } from '@/styles/commonStyles';
 import { theme } from '@/constants/theme';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getCurrentTheme, getHeaderColor } from '@/utils/theme';
+
+type CellValue = "X" | "O" | null;
+type GameStatus = "X" | "O" | "Draw" | null;
+
+const WINNING_LINES = [
+  [0, 1, 2], [3, 4, 5], [6, 7, 8],
+  [0, 3, 6], [1, 4, 7], [2, 5, 8],
+  [0, 4, 8], [2, 4, 6]
+];
+
+const CORNER_POSITIONS = [0, 2, 6, 8];
+const SIDE_POSITIONS = [1, 3, 5, 7];
+
+const getGameContainerStyles = (isDarkMode: boolean) => {
+  const currentTheme = getCurrentTheme(isDarkMode);
+  return {
+    textAlign: 'center' as const,
+    py: 4,
+    px: 2,
+    bgcolor: currentTheme.background.paper,
+    border: '2px solid',
+    borderColor: currentTheme.border.primary,
+    borderRadius: theme.borderRadius.medium,
+    maxWidth: 500,
+    mx: 'auto',
+  };
+};
+
+const getBoardStyles = () => ({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, 1fr)',
+  gap: 1,
+  mb: 4,
+  maxWidth: 300,
+  mx: 'auto',
+});
+
+const getCellStyles = (isDarkMode: boolean) => {
+  const currentTheme = getCurrentTheme(isDarkMode);
+  return {
+    width: 80,
+    height: 80,
+    bgcolor: currentTheme.background.default,
+    border: '2px solid',
+    borderColor: currentTheme.border.primary,
+    borderRadius: theme.borderRadius.small,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      bgcolor: currentTheme.primary.light,
+      transform: 'scale(1.05)',
+      border: '2px solid',
+      borderColor: currentTheme.border.primary,
+    },
+    '&.Mui-disabled': {
+      border: '2px solid',
+      borderColor: currentTheme.border.primary,
+    },
+  };
+};
+
+const getIconStyles = (isDarkMode: boolean, cellValue: CellValue) => {
+  const currentTheme = getCurrentTheme(isDarkMode);
+  
+  if (cellValue === 'X') {
+    if (isDarkMode) {
+      return {
+        fontSize: 40,
+        color: theme.colors.accent.purple, // Purple for X in dark mode
+      };
+    } else {
+      return {
+        fontSize: 40,
+        color: theme.lightColors.accent.green, // Green for X in light mode
+      };
+    }
+  }
+  if (cellValue === 'O') {
+    if (isDarkMode) {
+      return {
+        fontSize: 40,
+        color: theme.colors.primary.dark, // Dark blue for O in dark mode
+      };
+    } else {
+      return {
+        fontSize: 40,
+        color: theme.lightColors.accent.blue, // Light blue for O in light mode
+      };
+    }
+  }
+  return {
+    fontSize: 40,
+    color: currentTheme.text.primary,
+  };
+};
+
+const getResetButtonStyles = (isDarkMode: boolean) => {
+  const currentTheme = getCurrentTheme(isDarkMode);
+  return {
+    bgcolor: currentTheme.primary.main,
+    color: '#ffffff', // Always white text
+    py: 2,
+    px: 4,
+    fontSize: '1.1rem',
+    fontWeight: 600,
+    '&:hover': {
+      bgcolor: currentTheme.primary.dark,
+      transform: 'scale(1.05)',
+    },
+    transition: 'all 0.2s ease',
+  };
+};
 
 export default function TicTacToe() {
-  const [board, setBoard] = useState<("X" | "O" | null)[]>(Array(9).fill(null));
+  const { themeMode, isTransitioning, pendingTheme } = useTheme();
+  const isDarkMode = themeMode === 'dark';
+  const commonStyles = getCommonStyles(isDarkMode);
+  
+  const displayTheme = isTransitioning && pendingTheme ? pendingTheme : themeMode;
+  const displayIsDarkMode = displayTheme === 'dark';
+
+  const [board, setBoard] = useState<CellValue[]>(Array(9).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
   const [gameOver, setGameOver] = useState(false);
-  const [winner, setWinner] = useState<"X" | "O" | "Draw" | null>(null);
+  const [winner, setWinner] = useState<GameStatus>(null);
   const [aiThinking, setAiThinking] = useState(false);
 
-  const calculateWinner = (squares: ("X" | "O" | null)[]): "X" | "O" | null => {
-    const lines = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-      [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-      [0, 4, 8], [2, 4, 6] // diagonals
-    ];
-
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
+  const calculateWinner = (squares: CellValue[]): CellValue => {
+    for (const [a, b, c] of WINNING_LINES) {
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
         return squares[a];
       }
@@ -29,11 +146,11 @@ export default function TicTacToe() {
     return null;
   };
 
-  const handleClick = (i: number) => {
-    if (board[i] || gameOver || aiThinking) return;
+  const handleClick = (index: number) => {
+    if (board[index] || gameOver || aiThinking) return;
 
     const newBoard = board.slice();
-    newBoard[i] = 'X';
+    newBoard[index] = 'X';
     setBoard(newBoard);
 
     const gameWinner = calculateWinner(newBoard);
@@ -59,8 +176,7 @@ export default function TicTacToe() {
     setWinner(null);
   };
 
-  const pickAiMove = (squares: ("X" | "O" | null)[]): number | null => {
-    // Check if AI can win
+  const pickAiMove = (squares: CellValue[]): number | null => {
     for (let idx = 0; idx < squares.length; idx++) {
       if (squares[idx] === null) {
         const testSquares = squares.slice();
@@ -71,7 +187,6 @@ export default function TicTacToe() {
       }
     }
 
-    // Block player from winning
     for (let idx = 0; idx < squares.length; idx++) {
       if (squares[idx] === null) {
         const testSquares = squares.slice();
@@ -82,124 +197,113 @@ export default function TicTacToe() {
       }
     }
 
-    // Take center
     if (squares[4] === null) return 4;
 
-    // Take a corner
-    const corners = [0, 2, 6, 8];
-    for (const corner of corners) {
-      if (squares[corner] === null) return corner;
+    const availableCorners = CORNER_POSITIONS.filter(pos => squares[pos] === null);
+    if (availableCorners.length > 0) {
+      return availableCorners[Math.floor(Math.random() * availableCorners.length)];
     }
 
-    // Take a side
-    const sides = [1, 3, 5, 7];
-    for (const side of sides) {
-      if (squares[side] === null) return side;
+    const availableSides = SIDE_POSITIONS.filter(pos => squares[pos] === null);
+    if (availableSides.length > 0) {
+      return availableSides[Math.floor(Math.random() * availableSides.length)];
     }
 
     return null;
   };
 
   useEffect(() => {
-    if (gameOver) return;
-
-    if (!xIsNext) {
+    if (!xIsNext && !gameOver && !aiThinking) {
       setAiThinking(true);
-      const timer = setTimeout(() => {
-        setBoard(prev => {
-          const copy = prev.slice();
-          const move = pickAiMove(copy);
-          if (move !== null) {
-            copy[move] = 'O';
-          }
-          const w = calculateWinner(copy);
-          if (w) {
-            setWinner(w);
+      
+      setTimeout(() => {
+        const aiMove = pickAiMove(board);
+        if (aiMove !== null) {
+          const newBoard = board.slice();
+          newBoard[aiMove] = 'O';
+          setBoard(newBoard);
+          
+          const gameWinner = calculateWinner(newBoard);
+          if (gameWinner) {
+            setWinner(gameWinner);
             setGameOver(true);
-          } else if (copy.every(s => s !== null)) {
+          } else if (newBoard.every(square => square !== null)) {
             setWinner('Draw');
             setGameOver(true);
           } else {
             setXIsNext(true);
           }
-          return copy;
-        });
+        }
         setAiThinking(false);
-      }, 450);
-
-      return () => clearTimeout(timer);
+      }, 500);
     }
-  }, [xIsNext, gameOver]);
+  }, [xIsNext, gameOver, aiThinking, board]);
 
   const getStatusText = () => {
+    if (aiThinking) return 'Computer is thinking...';
     if (winner) return `Winner: ${winner}`;
     return xIsNext ? 'Your turn' : 'Computer is thinking...';
   };
 
-  const getCellColor = (cell: "X" | "O" | null) => {
-    if (cell === 'X') return theme.colors.accent.purple;
-    if (cell === 'O') return theme.colors.primary.light;
-    return theme.colors.primary.light;
+  const getCellColor = (cell: CellValue) => {
+    const currentTheme = getCurrentTheme(displayIsDarkMode);
+    
+    if (cell === 'X') {
+      if (displayIsDarkMode) {
+        return theme.colors.accent.purple; // Purple for X in dark mode
+      } else {
+        return theme.lightColors.accent.green; // Green for X in light mode
+      }
+    }
+    if (cell === 'O') {
+      if (displayIsDarkMode) {
+        return theme.colors.primary.dark; // Dark blue for O in dark mode
+      } else {
+        return theme.lightColors.accent.blue; // Light blue for O in light mode
+      }
+    }
+    return currentTheme.primary.light;
   };
 
   return (
-    <Box sx={commonStyles.section}>
-      <Typography variant="h2" component="h2" gutterBottom>
+    <Box sx={{ ...commonStyles.section, pt: 3 }}>
+      <Typography 
+        variant="h2" 
+        component="h2" 
+        gutterBottom
+        sx={{ color: getHeaderColor(displayIsDarkMode), mb: 4 }}
+      >
         Interactive Tic-Tac-Toe
       </Typography>
       
-      <Typography variant="body1" sx={{ mb: 4 }}>
+      <Typography 
+        variant="body1" 
+        sx={{ 
+          mb: 4,
+          color: getCurrentTheme(displayIsDarkMode).text.body
+        }}
+      >
         Take a break and play a quick game! This demonstrates my ability to create interactive elements.
       </Typography>
       
-      <Paper 
-        sx={{ 
-          ...commonStyles.paper,
-          p: 4,
-          textAlign: 'center',
-          border: '2px solid',
-          borderColor: theme.colors.border.primary,
-          maxWidth: 400,
-          mx: 'auto',
-        }}
-      >
-        <Typography variant="h5" gutterBottom sx={{ color: theme.colors.text.primary, mb: 3 }}>
+      <Paper sx={getGameContainerStyles(displayIsDarkMode)}>
+        <Typography sx={{ variant: 'h5', component: 'p', color: getCurrentTheme(displayIsDarkMode).text.secondary, mb: 3 }}>
           {getStatusText()}
         </Typography>
         
-        <Box sx={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(3, 1fr)', 
-          gap: 2, 
-          mb: 3,
-          width: 'fit-content',
-          mx: 'auto'
-        }}>
+        <Box sx={getBoardStyles()}>
           {board.map((cell, index) => (
             <Button
               key={index}
               variant="outlined"
               onClick={() => handleClick(index)}
               disabled={cell !== null || winner !== null}
-              sx={{
-                width: 70,
-                height: 70,
-                fontSize: '1.5rem',
-                fontWeight: 'bold',
-                color: getCellColor(cell),
-                borderColor: theme.colors.border.primary,
-                bgcolor: theme.colors.background.paper,
-                minWidth: 'unset',
-                '&:hover': {
-                  borderColor: theme.colors.primary.main,
-                  bgcolor: theme.colors.background.default,
-                }
-              }}
+              sx={getCellStyles(displayIsDarkMode)}
             >
               {cell === 'X' ? (
-                <Close sx={{ fontSize: commonStyles.icon.small, color: theme.colors.accent.purple }} />
+                <Close sx={getIconStyles(displayIsDarkMode, 'X')} />
               ) : cell === 'O' ? (
-                <RadioButtonUnchecked sx={{ fontSize: commonStyles.icon.small, color: theme.colors.primary.light }} />
+                <RadioButtonUnchecked sx={getIconStyles(displayIsDarkMode, 'O')} />
               ) : null}
             </Button>
           ))}
@@ -208,11 +312,7 @@ export default function TicTacToe() {
         <Button 
           variant="contained" 
           onClick={resetGame}
-          sx={{ 
-            ...commonStyles.button.primary,
-            px: 3,
-            py: 1.5,
-          }}
+          sx={getResetButtonStyles(displayIsDarkMode)}
         >
           Reset Game
         </Button>

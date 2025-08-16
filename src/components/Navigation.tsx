@@ -4,6 +4,9 @@ import { Box, IconButton, Tooltip, Paper } from '@mui/material';
 import { Person, Star, Timeline, Games, ContactMail } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
 import { theme } from '@/constants/theme';
+import { useTheme } from '@/contexts/ThemeContext';
+import { getCurrentTheme } from '@/utils/theme';
+import { scrollToSection } from '@/utils/scroll';
 
 const navItems = [
   { id: 'about', label: 'About', icon: <Person /> },
@@ -15,13 +18,8 @@ const navItems = [
 
 export default function Navigation() {
   const [activeSection, setActiveSection] = useState('top');
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const { themeMode } = useTheme();
+  const isDarkMode = themeMode === 'dark';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,30 +48,53 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const getNavigationStyles = () => ({
+    position: 'fixed' as const,
+    left: 20,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    zIndex: 1000,
+    display: { xs: 'none', md: 'block' }
+  });
+
+  const getPaperStyles = () => {
+    const currentTheme = getCurrentTheme(isDarkMode);
+    return {
+      p: 1,
+      bgcolor: currentTheme.background.paper,
+      borderRadius: 3,
+      border: '1px solid',
+      borderColor: currentTheme.border.primary,
+      backdropFilter: 'blur(10px)',
+      backgroundColor: isDarkMode ? 'rgba(10, 10, 26, 0.98)' : 'rgba(248, 250, 255, 0.98)',
+      boxShadow: isDarkMode ? theme.shadows.heavy : '0 8px 32px rgba(74, 144, 226, 0.3)'
+    };
+  };
+
+  const getButtonStyles = (itemId: string) => {
+    const currentTheme = getCurrentTheme(isDarkMode);
+    const isActive = activeSection === itemId;
+    
+    return {
+      width: 48,
+      height: 48,
+      color: isActive ? currentTheme.primary.main : currentTheme.text.secondary,
+      bgcolor: isActive ? currentTheme.primary.dark : 'transparent',
+      border: '1px solid',
+      borderColor: isActive ? currentTheme.primary.main : 'transparent',
+      '&:hover': {
+        bgcolor: currentTheme.primary.dark,
+        color: currentTheme.text.primary,
+        transform: 'scale(1.1)',
+        borderColor: currentTheme.primary.main,
+      },
+      transition: 'all 0.2s ease-in-out',
+    };
+  };
+
   return (
-    <Box
-      sx={{
-        position: 'fixed',
-        left: 20,
-        top: '50%',
-        transform: 'translateY(-50%)',
-        zIndex: 1000,
-        display: { xs: 'none', md: 'block' }
-      }}
-    >
-      <Paper
-        elevation={8}
-        sx={{
-          p: 1,
-          bgcolor: theme.colors.background.paper,
-          borderRadius: 3,
-          border: '1px solid',
-          borderColor: theme.colors.border.primary,
-          backdropFilter: 'blur(10px)',
-          backgroundColor: 'rgba(10, 10, 26, 0.98)',
-          boxShadow: theme.shadows.heavy
-        }}
-      >
+    <Box sx={getNavigationStyles()}>
+      <Paper elevation={8} sx={getPaperStyles()}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           {navItems.map((item) => (
             <Tooltip
@@ -84,21 +105,7 @@ export default function Navigation() {
             >
               <IconButton
                 onClick={() => scrollToSection(item.id)}
-                sx={{
-                  width: 48,
-                  height: 48,
-                  color: activeSection === item.id ? theme.colors.primary.main : theme.colors.text.secondary,
-                  bgcolor: activeSection === item.id ? theme.colors.primary.dark : 'transparent',
-                  border: '1px solid',
-                  borderColor: activeSection === item.id ? theme.colors.primary.main : 'transparent',
-                  '&:hover': {
-                    bgcolor: theme.colors.primary.dark,
-                    color: theme.colors.text.primary,
-                    transform: 'scale(1.1)',
-                    borderColor: theme.colors.primary.main,
-                  },
-                  transition: 'all 0.2s ease-in-out',
-                }}
+                sx={getButtonStyles(item.id)}
               >
                 {item.icon}
               </IconButton>

@@ -10,6 +10,13 @@ body {
   overflow-x: hidden;
   background-color: #04040c;
   color: #f8f9fa;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html[data-theme="light"],
+html[data-theme="light"] body {
+  background-color: #ffffff;
+  color: #1a1a1a;
 }
 
 a {
@@ -17,7 +24,6 @@ a {
   text-decoration: none;
 }
 
-/* Sequential fade-in animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
