@@ -8,13 +8,22 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { getCurrentTheme, getHeaderColor } from '@/utils/theme';
 import { sanitizeUrl, isValidEmail } from '@/utils/security';
 
+interface ContactButton {
+  icon: React.ComponentType<{ sx?: object }>;
+  label: string;
+  href?: string;
+  onClick?: () => void;
+  isExternal?: boolean;
+  isDownload?: boolean;
+}
+
 const CONTACT_EMAIL = 'maryskolos@gmail.com';
 
-const contactButtons = [
+const contactButtons: ContactButton[] = [
   {
     icon: LinkedIn,
     label: 'LinkedIn Profile',
-    href: sanitizeUrl('https://www.linkedin.com/in/mary-skolos-698387128/'),
+    href: sanitizeUrl('https://www.linkedin.com/in/mary-skolos-698387128/') || undefined,
     isExternal: true
   },
   {
@@ -30,13 +39,23 @@ const contactButtons = [
   {
     icon: Download,
     label: 'Download Resume',
-    href: sanitizeUrl('/resume.pdf'),
-    isExternal: true
+    href: '/resume.pdf', // Local file, don't sanitize
+    isDownload: true
   }
 ];
 
-const getButtonProps = (button: typeof contactButtons[0]) => {
+const getButtonProps = (button: ContactButton) => {
   if (button.href) {
+    if (button.isDownload) {
+      // For download buttons, use the href directly (local files don't need sanitization)
+      return {
+        href: button.href,
+        download: 'Mary_Skolos_Resume.pdf',
+        target: '_self',
+      };
+    }
+    
+    // For external URLs, sanitize them
     const sanitizedHref = sanitizeUrl(button.href);
     if (!sanitizedHref) {
       return { disabled: true };
