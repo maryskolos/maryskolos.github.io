@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Box, Typography, Button, Paper } from '@mui/material';
 import { Close, RadioButtonUnchecked } from '@mui/icons-material';
 import { getCommonStyles } from '@/styles/commonStyles';
@@ -176,7 +176,7 @@ export default function TicTacToe() {
     setWinner(null);
   };
 
-  const pickAiMove = (squares: CellValue[]): number | null => {
+  const pickAiMove = useCallback((squares: CellValue[]): number | null => {
     for (let idx = 0; idx < squares.length; idx++) {
       if (squares[idx] === null) {
         const testSquares = squares.slice();
@@ -210,7 +210,7 @@ export default function TicTacToe() {
     }
 
     return null;
-  };
+  }, []);
 
   useEffect(() => {
     if (!xIsNext && !gameOver && !aiThinking) {
@@ -237,32 +237,12 @@ export default function TicTacToe() {
         setAiThinking(false);
       }, 500);
     }
-  }, [xIsNext, gameOver, aiThinking, board]);
+  }, [xIsNext, gameOver, aiThinking, board, pickAiMove]);
 
   const getStatusText = () => {
     if (aiThinking) return 'Computer is thinking...';
     if (winner) return `Winner: ${winner}`;
     return xIsNext ? 'Your turn' : 'Computer is thinking...';
-  };
-
-  const getCellColor = (cell: CellValue) => {
-    const currentTheme = getCurrentTheme(displayIsDarkMode);
-    
-    if (cell === 'X') {
-      if (displayIsDarkMode) {
-        return theme.colors.accent.purple; // Purple for X in dark mode
-      } else {
-        return theme.lightColors.accent.green; // Green for X in light mode
-      }
-    }
-    if (cell === 'O') {
-      if (displayIsDarkMode) {
-        return theme.colors.primary.dark; // Dark blue for O in dark mode
-      } else {
-        return theme.lightColors.accent.blue; // Light blue for O in light mode
-      }
-    }
-    return currentTheme.primary.light;
   };
 
   return (

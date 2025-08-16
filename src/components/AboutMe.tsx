@@ -6,12 +6,11 @@ import InfoTooltip from '@/components/InfoTooltip';
 import { getCommonStyles } from '@/styles/commonStyles';
 import { theme } from '@/constants/theme';
 import { useTheme } from '@/contexts/ThemeContext';
-import { isValidSectionId } from '@/utils/security';
 import { getCurrentTheme, getHeaderColor } from '@/utils/theme';
 import { scrollToSection } from '@/utils/scroll';
 
 interface SkillBlock {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ sx?: object }>;
   title: string;
   subtitle: string;
   tooltip?: string;
@@ -101,7 +100,7 @@ const openEmailClient = () => {
   window.open('mailto:your-email@example.com?subject=Reference%20Request&body=Hi%20Mary,%0D%0A%0D%0AI%20would%20like%20to%20request%20references%20for%20your%20work.%0D%0A%0D%0AThank%20you!');
 };
 
-const renderSkillCard = (block: SkillBlock, isDarkMode: boolean, commonStyles: any) => {
+const renderSkillCard = (block: SkillBlock, isDarkMode: boolean, commonStyles: ReturnType<typeof getCommonStyles>) => {
   const cardStyles = block.scrollTo ? commonStyles.card.scrollable : commonStyles.card.regular;
   const IconComponent = block.icon;
   
@@ -189,7 +188,7 @@ export default function AboutMe() {
           </Typography>
           
           <Typography sx={getReferencesDescriptionStyles(displayIsDarkMode)}>
-            I'm happy to provide professional references upon request. Please reach out if you'd like to 
+            I&apos;m happy to provide professional references upon request. Please reach out if you&apos;d like to 
             speak with previous colleagues or supervisors about my work ethic, technical skills, and 
             team collaboration abilities.
           </Typography>

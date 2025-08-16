@@ -4,14 +4,13 @@ import { Box, Typography, Paper } from '@mui/material';
 import { Person, Assignment, Code, Psychology, Group, School } from '@mui/icons-material';
 import InfoTooltip from '@/components/InfoTooltip';
 import { getCommonStyles } from '@/styles/commonStyles';
-import { theme } from '@/constants/theme';
 import { useTheme } from '@/contexts/ThemeContext';
 import { getCurrentTheme, getHeaderColor } from '@/utils/theme';
 
 interface Skill {
   title: string;
   description: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ sx?: object }>;
   color: string;
   tooltip: string;
 }
@@ -109,7 +108,7 @@ const getIconStyles = (isDarkMode: boolean) => {
   };
 };
 
-const getCardContentStyles = (isDarkMode: boolean) => ({
+const getCardContentStyles = () => ({
   textAlign: 'center' as const,
   p: 3,
   flex: 1,
@@ -176,7 +175,7 @@ export default function SkillsAndValues() {
                 <skill.icon sx={getIconStyles(displayIsDarkMode)} />
               </Box>
               
-              <Box sx={getCardContentStyles(displayIsDarkMode)}>
+              <Box sx={getCardContentStyles()}>
                 <Typography 
                   variant="h5" 
                   gutterBottom

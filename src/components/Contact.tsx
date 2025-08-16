@@ -5,9 +5,8 @@ import { LinkedIn, Email, Download } from '@mui/icons-material';
 import { getCommonStyles } from '@/styles/commonStyles';
 import { emailUtils } from '@/utils/email';
 import { useTheme } from '@/contexts/ThemeContext';
-import { theme } from '@/constants/theme';
-import { sanitizeUrl, isValidEmail } from '@/utils/security';
 import { getCurrentTheme, getHeaderColor } from '@/utils/theme';
+import { sanitizeUrl, isValidEmail } from '@/utils/security';
 
 const CONTACT_EMAIL = 'maryskolos@gmail.com';
 
@@ -72,16 +71,6 @@ const getButtonStyles = () => ({
   minWidth: 0,
 });
 
-const getTitleStyles = (isDarkMode: boolean) => {
-  const currentTheme = getCurrentTheme(isDarkMode);
-  return {
-    variant: 'h2' as const,
-    component: 'h2' as const,
-    gutterBottom: true,
-    color: currentTheme.text.primary,
-  };
-};
-
 const getDescriptionStyles = (isDarkMode: boolean) => {
   const currentTheme = getCurrentTheme(isDarkMode);
   return {
@@ -116,7 +105,7 @@ export default function Contact() {
       </Typography>
       
       <Typography sx={getDescriptionStyles(displayIsDarkMode)}>
-        I'm always interested in new opportunities and collaborations. Whether you have a question or just want to say hi, feel free to reach out!
+        I&apos;m always interested in new opportunities and collaborations. Whether you have a question or just want to say hi, feel free to reach out!
       </Typography>
 
       <Box sx={getButtonContainerStyles()}>

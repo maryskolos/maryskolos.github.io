@@ -1,4 +1,3 @@
-import { theme } from '@/constants/theme';
 import { getCurrentTheme } from '@/utils/theme';
 
 export const getCommonStyles = (isDarkMode: boolean) => {

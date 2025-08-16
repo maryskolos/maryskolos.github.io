@@ -15,7 +15,6 @@ interface InfoTooltipProps {
 export default function InfoTooltip({ content, children, position = 'top' }: InfoTooltipProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { themeMode, isTransitioning, pendingTheme } = useTheme();
-  const isDarkMode = themeMode === 'dark';
   
   const displayTheme = isTransitioning && pendingTheme ? pendingTheme : themeMode;
   const displayIsDarkMode = displayTheme === 'dark';

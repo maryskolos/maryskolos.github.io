@@ -100,9 +100,9 @@ const getTypeColor = (type: TimelineItem['type'], isDarkMode: boolean) => {
       return currentTheme.primary.dark;
     case 'Personal':
       if (isDarkMode) {
-        return (theme.colors.accent as any).purple;
+        return theme.colors.accent.purple;
       } else {
-        return (theme.lightColors.accent as any).green;
+        return theme.lightColors.accent.green;
       }
     default:
       return currentTheme.primary.main;
@@ -122,7 +122,6 @@ const getTimelineStyles = (isDarkMode: boolean) => {
 };
 
 const getTimelineDotStyles = (type: TimelineItem['type'], isDarkMode: boolean) => {
-  const currentTheme = getCurrentTheme(isDarkMode);
   return {
     position: 'absolute',
     left: { xs: 7, md: 9 },
