@@ -62,6 +62,8 @@ const getButtonContainerStyles = () => ({
   flexWrap: 'nowrap',
   mt: 4,
   width: '100%',
+  // Stack buttons vertically on mobile, horizontally on desktop
+  flexDirection: { xs: 'column', sm: 'row' },
   // Remove hover effects on mobile
   '& .MuiButton-root': {
     cursor: { xs: 'default', sm: 'pointer' },
@@ -72,7 +74,8 @@ const getButtonContainerStyles = () => ({
 });
 
 const getButtonStyles = () => ({
-  flex: 1,
+  flex: { xs: 'none', sm: 1 },
+  width: { xs: '100%', sm: 'auto' },
   py: 2,
   px: 3,
   minWidth: 0,
