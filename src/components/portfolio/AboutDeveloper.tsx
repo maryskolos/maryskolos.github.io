@@ -53,7 +53,6 @@ const experience = [
       'Led the payment gateway migration from Braintree to Authorize.Net - owning planning, integration, cutover, and post-launch stability across checkout and order processing.',
       'Rewrote checkout and order-success flows with timed checkout, PayPal support, and cart logic that reduced abandonment and inventory race conditions.',
       'Integrated international tax and shipping platforms (ShipEngine) for accurate order tracking and fulfillment on a high-traffic e-commerce site.',
-      'Led roles-and-permissions reworks to strengthen security and access control across internal and customer-facing systems.',
       'Optimized search and database performance through query refactoring, indexing, and Elasticsearch - supporting peak traffic without degrading UX.',
       'Managed AWS/RDS infrastructure and delivered REST APIs plus PowerBI Embedded reporting for stakeholder visibility.',
       'Shipped iteratively in an Agile workflow using GitHub, Jira, code review, and test-driven development.',
@@ -65,6 +64,7 @@ const experience = [
     period: '2020 – 2022',
     bullets: [
       'Led TALL stack (Laravel, Livewire, Alpine.js) development for health data applications deployed on AWS via Laravel Forge.',
+      'Led roles-and-permissions reworks to strengthen security and access control across internal and customer-facing systems.',
       'Owned database and cloud operations - RDS management, deployment pipelines, and reliability improvements for production workloads.',
       'Instituted OWASP security practices and led company-wide secure coding training; mentored junior developers on quality and delivery.',
     ],
