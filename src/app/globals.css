@@ -4,12 +4,33 @@
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+section[id],
+[id='home'],
+[id='demos'],
+[id='writing'],
+[id='about'],
+[id='demo'],
+[id='the-idea'],
+[id='system-design'],
+[id='overview'],
+[id='lab'],
+[id='why'],
+[id='article'] {
+  scroll-margin-top: 5.5rem;
+}
+
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  background-color: #04040c;
-  color: #f8f9fa;
+  background-color: #F5F0E6;
+  color: #3D4A32;
+  font-family: var(--font-figtree), "Figtree", system-ui, sans-serif;
 }
 
 a {
@@ -17,50 +38,43 @@ a {
   text-decoration: none;
 }
 
-/* Sequential fade-in animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  padding: 0.75rem 1rem;
+  background: #3D4A32;
+  color: #F5F0E6;
+  font-weight: 600;
+  border-radius: 0 0 8px 8px;
+  transform: translateY(-120%);
+  transition: transform 0.15s ease;
 }
 
-.fade-in-header {
-  animation: fadeInUp 1s ease-out 0.2s forwards;
-  opacity: 0;
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid #5A6A3F;
+  outline-offset: 2px;
 }
 
-.fade-in-about {
-  animation: fadeInUp 1s ease-out 0.8s forwards;
-  opacity: 0;
+:focus-visible {
+  outline: 2px solid #5A6A3F;
+  outline-offset: 2px;
 }
 
-.fade-in-skills {
-  animation: fadeInUp 1s ease-out 1.4s forwards;
-  opacity: 0;
-}
-
-.fade-in-timeline {
-  animation: fadeInUp 1s ease-out 2s forwards;
-  opacity: 0;
-}
-
-.fade-in-game {
-  animation: fadeInUp 1s ease-out 2.6s forwards;
-  opacity: 0;
-}
-
-.fade-in-contact {
-  animation: fadeInUp 1s ease-out 3.2s forwards;
-  opacity: 0;
-}
-
-@media (prefers-color-scheme: dark) {
+@media (prefers-reduced-motion: reduce) {
   html {
-    color-scheme: dark;
+    scroll-behavior: auto;
   }
+}
+
+.error-page-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  background: #5A6A3F;
+  color: #F5F0E6;
+  cursor: pointer;
+  font-weight: 600;
 }

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mary Skolos — Resume</title>
+    <meta
+      name="description"
+      content="Resume of Mary Skolos — senior full-stack engineer. Laravel, React, AWS, checkout and payments."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,560;9..144,650;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --navy-pale: #e8eef6;
+        --navy-muted: #6b7f9a;
+        --navy: #1e3a5f;
+        --navy-deep: #12263f;
+        --slate: #c5d0de;
+        --ink: #1a2332;
+        --paper: #fefefe;
+        --rule: color-mix(in srgb, var(--navy-muted) 40%, transparent);
+        --page-width: 8.5in;
+        --page-pad-x: 0.65in;
+        --page-pad-y: 0.55in;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        color-scheme: light;
+      }
+
+      body {
+        min-height: 100vh;
+        font-family: "Figtree", system-ui, sans-serif;
+        font-size: 10.5pt;
+        line-height: 1.45;
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 90% 55% at 50% -10%, var(--navy-pale) 0%, transparent 55%),
+          linear-gradient(165deg, #f4f6f9 0%, #e9eef4 48%, #f4f6f9 100%);
+        padding: 2rem 1rem 3rem;
+      }
+
+      .toolbar {
+        max-width: var(--page-width);
+        margin: 0 auto 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+      }
+
+      .toolbar p {
+        font-size: 0.875rem;
+        color: var(--navy);
+        max-width: 28rem;
+      }
+
+      .toolbar button {
+        font-family: inherit;
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: var(--paper);
+        background: var(--navy);
+        border: none;
+        border-radius: 6px;
+        padding: 0.55rem 1rem;
+        cursor: pointer;
+      }
+
+      .toolbar button:hover {
+        background: var(--navy-deep);
+      }
+
+      .page {
+        width: min(100%, var(--page-width));
+        margin: 0 auto;
+        background: var(--paper);
+        padding: var(--page-pad-y) var(--page-pad-x);
+        border: 1px solid color-mix(in srgb, var(--navy-muted) 35%, transparent);
+        box-shadow:
+          0 1px 0 color-mix(in srgb, var(--slate) 55%, transparent),
+          0 18px 40px color-mix(in srgb, var(--navy-deep) 12%, transparent);
+      }
+
+      header {
+        text-align: center;
+        padding-bottom: 0.85rem;
+        border-bottom: 2px solid var(--navy);
+      }
+
+      h1 {
+        font-family: "Fraunces", Georgia, serif;
+        font-weight: 700;
+        font-size: 1.85rem;
+        letter-spacing: 0.02em;
+        color: var(--navy-deep);
+        line-height: 1.15;
+        margin-bottom: 0.35rem;
+      }
+
+      .headline {
+        font-weight: 600;
+        font-size: 0.98rem;
+        color: var(--navy);
+        margin-bottom: 0.45rem;
+      }
+
+      .contact {
+        font-size: 0.82rem;
+        color: var(--ink);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.25rem 0.55rem;
+      }
+
+      .contact a {
+        color: var(--navy-deep);
+        text-decoration: none;
+        border-bottom: 1px solid color-mix(in srgb, var(--navy-muted) 55%, transparent);
+      }
+
+      .contact a:hover {
+        border-bottom-color: var(--navy);
+      }
+
+      .contact .sep {
+        color: var(--navy-muted);
+        user-select: none;
+      }
+
+      section {
+        margin-top: 0.95rem;
+      }
+
+      h2 {
+        font-family: "Fraunces", Georgia, serif;
+        font-weight: 650;
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--navy);
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 0.28rem;
+        margin-bottom: 0.55rem;
+      }
+
+      .portfolio {
+        margin-top: 0.85rem;
+        padding: 0.7rem 0.85rem;
+        background: color-mix(in srgb, var(--navy-pale) 55%, var(--paper));
+        border-left: 3px solid var(--navy);
+      }
+
+      .portfolio-label {
+        font-family: "Fraunces", Georgia, serif;
+        font-weight: 650;
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--navy);
+        margin-bottom: 0.2rem;
+      }
+
+      .portfolio-url {
+        font-family: "Fraunces", Georgia, serif;
+        font-weight: 700;
+        font-size: 1.15rem;
+        line-height: 1.2;
+        margin-bottom: 0;
+      }
+
+      .portfolio-url a {
+        color: var(--navy-deep);
+        text-decoration: none;
+        border-bottom: 2px solid color-mix(in srgb, var(--navy-muted) 60%, transparent);
+      }
+
+      .portfolio-url a:hover {
+        border-bottom-color: var(--navy);
+      }
+
+      .job {
+        margin-bottom: 0.75rem;
+      }
+
+      .job:last-child {
+        margin-bottom: 0;
+      }
+
+      .job-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.25rem 1rem;
+        margin-bottom: 0.28rem;
+      }
+
+      .job-title {
+        font-weight: 700;
+        color: var(--navy-deep);
+      }
+
+      .job-meta {
+        font-weight: 500;
+        color: var(--navy);
+      }
+
+      .job-dates {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--navy-muted);
+        white-space: nowrap;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        position: relative;
+        padding-left: 0.95rem;
+        margin-bottom: 0.28rem;
+      }
+
+      li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.55em;
+        width: 0.35rem;
+        height: 0.35rem;
+        border-radius: 1px;
+        background: var(--navy-muted);
+      }
+
+      .skills {
+        line-height: 1.55;
+      }
+
+      .skills strong {
+        font-weight: 700;
+        color: var(--navy-deep);
+      }
+
+      .bonus p {
+        margin-bottom: 0.2rem;
+      }
+
+      .bonus .label {
+        font-weight: 700;
+        color: var(--navy-deep);
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 1rem 0.65rem 2rem;
+        }
+
+        .page {
+          padding: 1.25rem 1.1rem;
+        }
+
+        h1 {
+          font-size: 1.55rem;
+        }
+
+        .job-head {
+          flex-direction: column;
+          gap: 0.1rem;
+        }
+      }
+
+      @page {
+        size: letter;
+        margin: 0.45in 0.55in;
+      }
+
+      @media print {
+        body {
+          background: white;
+          padding: 0;
+        }
+
+        .toolbar {
+          display: none !important;
+        }
+
+        .page {
+          width: 100%;
+          max-width: none;
+          border: none;
+          box-shadow: none;
+          padding: 0;
+        }
+
+        a {
+          color: inherit !important;
+          text-decoration: none !important;
+          border-bottom: none !important;
+        }
+
+        .portfolio {
+          background: transparent;
+          border-left-color: var(--navy);
+          padding-left: 0.65rem;
+        }
+
+        .contact a::after,
+        .portfolio-url a::after {
+          content: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar">
+      <p>Print or Save as PDF (Ctrl/Cmd+P) for a letter-size file named like <em>_Mary_Skolos.pdf</em>.</p>
+      <button type="button" onclick="window.print()">Print / Save PDF</button>
+    </div>
+
+    <article class="page">
+      <header>
+        <h1>Mary Skolos</h1>
+        <p class="headline">
+          Senior Full-Stack Engineer | Laravel · React · AWS · Checkout &amp; Payments
+        </p>
+        <p class="contact">
+          <span>Seattle, WA</span>
+          <span class="sep" aria-hidden="true">·</span>
+          <a href="tel:+12063992489">(206) 399-2489</a>
+          <span class="sep" aria-hidden="true">·</span>
+          <a href="mailto:maryskolos@gmail.com">maryskolos@gmail.com</a>
+          <span class="sep" aria-hidden="true">·</span>
+          <a href="https://maryskolos.github.io" target="_blank" rel="noopener noreferrer"
+            >maryskolos.github.io</a
+          >
+        </p>
+      </header>
+
+      <aside class="portfolio" aria-label="Portfolio">
+        <p class="portfolio-label">Portfolio</p>
+        <p class="portfolio-url">
+          <a href="https://maryskolos.github.io" target="_blank" rel="noopener noreferrer"
+            >maryskolos.github.io</a
+          >
+        </p>
+      </aside>
+
+      <section aria-labelledby="experience-heading">
+        <h2 id="experience-heading">Experience</h2>
+
+        <div class="job">
+          <div class="job-head">
+            <div>
+              <span class="job-title">Senior Software Engineer</span>
+              <span class="job-meta"> · Card Kingdom</span>
+            </div>
+            <span class="job-dates">2022 – Present</span>
+          </div>
+          <ul>
+            <li>
+              Led payment gateway migration from Braintree to Authorize.Net - planning, integration,
+              cutover, and post-launch stability across checkout and order processing.
+            </li>
+            <li>
+              Rewrote checkout and order-success flows (timed checkout, PayPal, cart logic) to cut
+              abandonment and inventory race conditions on a high-traffic storefront.
+            </li>
+            <li>
+              Integrated ShipEngine and international tax platforms for accurate tracking and
+              fulfillment.
+            </li>
+            <li>
+              Built REST APIs and customer-facing features; optimized search and MySQL performance
+              (indexing, query work, Elasticsearch) for peak traffic.
+            </li>
+            <li>
+              Led roles-and-permissions reworks; managed AWS/RDS and PowerBI Embedded reporting for
+              stakeholders.
+            </li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <div>
+              <span class="job-title">Full-Stack Developer</span>
+              <span class="job-meta"> · Lumiio Inc.</span>
+            </div>
+            <span class="job-dates">2020 – 2022</span>
+          </div>
+          <ul>
+            <li>
+              Led TALL stack (Laravel, Livewire, Alpine.js) development for health data apps on AWS
+              via Laravel Forge.
+            </li>
+            <li>
+              Owned RDS/cloud operations and deployments; instituted OWASP practices and company-wide
+              secure coding training; mentored junior developers.
+            </li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <div>
+              <span class="job-title">Junior Developer (Internships)</span>
+              <span class="job-meta"> · Shawn Veltman &amp; Associates</span>
+            </div>
+            <span class="job-dates">2017 &amp; 2018</span>
+          </div>
+          <ul>
+            <li>
+              Built and maintained Laravel CRM and sales tracking systems with TDD; partnered with
+              clients on features, integrations, and reliability.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section aria-labelledby="skills-heading">
+        <h2 id="skills-heading">Skills</h2>
+        <p class="skills">
+          <strong>Languages &amp; frameworks:</strong> PHP / Laravel · React / TypeScript · REST APIs
+          <br />
+          <strong>Data &amp; cloud:</strong> MySQL / RDS · AWS (S3, EC2, CloudWatch) · Elasticsearch /
+          Redis
+          <br />
+          <strong>Commerce:</strong> Authorize.Net · Braintree · PayPal · ShipEngine
+          <br />
+          <strong>Practice:</strong> Git / Jira / TDD · OWASP
+        </p>
+      </section>
+
+      <section class="bonus" aria-labelledby="bonus-heading">
+        <h2 id="bonus-heading">Education · Certifications · Interests</h2>
+        <p>
+          <span class="label">Education:</span> Coursework toward BSc Computer Science, University of
+          Victoria (2016–2020)
+        </p>
+        <p><span class="label">Certifications:</span> OWASP Web Security · UI/UX Design</p>
+        <p><span class="label">Interests:</span> TTRPGs · Board games · Game design</p>
+      </section>
+    </article>
+  </body>
+</html>

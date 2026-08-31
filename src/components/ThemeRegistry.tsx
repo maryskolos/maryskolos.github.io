@@ -2,118 +2,97 @@
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Outfit, Space_Grotesk } from 'next/font/google';
+import { oliveColors } from '@/constants/oliveTheme';
 
-const outfit = Outfit({ 
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-outfit'
-});
-
-const spaceGrotesk = Space_Grotesk({ 
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-space-grotesk'
-});
+const headingFont = 'var(--font-fraunces), "Fraunces", Georgia, serif';
+const bodyFont = 'var(--font-figtree), "Figtree", system-ui, sans-serif';
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
     primary: {
-      main: '#6d809f',
-      light: '#9ca0b9',
-      dark: '#496c99',
-      contrastText: '#ffffff',
+      main: oliveColors.oliveMoss,
+      light: oliveColors.oliveMuted,
+      dark: oliveColors.oliveDeep,
+      contrastText: oliveColors.cream,
     },
     secondary: {
-      main: '#9ca0b9',
-      light: '#e8e9ea',
-      dark: '#6d809f',
-      contrastText: '#04040c',
+      main: oliveColors.sand,
+      light: oliveColors.olivePale,
+      dark: oliveColors.oliveMuted,
+      contrastText: oliveColors.oliveDeep,
     },
     background: {
-      default: '#04040c',
-      paper: '#0a0a1a',
+      default: oliveColors.cream,
+      paper: oliveColors.white,
     },
     text: {
-      primary: '#ffffff',
-      secondary: '#e8e9ea',
+      primary: oliveColors.oliveDeep,
+      secondary: oliveColors.oliveMuted,
     },
-    divider: '#496c99',
-    action: {
-      active: '#6d809f',
-      hover: '#9ca0b9',
-      selected: '#496c99',
-    },
+    divider: oliveColors.olivePale,
   },
   typography: {
-    fontFamily: 'var(--font-outfit), Inter, Arial, sans-serif',
+    fontFamily: bodyFont,
     h1: {
-      fontFamily: 'Syne, var(--font-space-grotesk), var(--font-outfit), Inter, Arial, sans-serif',
-      fontWeight: 700,
-      letterSpacing: '-0.01em',
-      color: '#ffffff',
+      fontFamily: headingFont,
+      fontWeight: 600,
+      letterSpacing: '-0.02em',
+      color: oliveColors.oliveDeep,
     },
     h2: {
-      fontFamily: 'var(--font-space-grotesk), var(--font-outfit), Inter, Arial, sans-serif',
+      fontFamily: headingFont,
       fontWeight: 600,
-      color: '#ffffff',
+      letterSpacing: '-0.015em',
+      color: oliveColors.oliveDeep,
     },
     h3: {
-      fontFamily: 'var(--font-space-grotesk), var(--font-outfit), Inter, Arial, sans-serif',
+      fontFamily: headingFont,
       fontWeight: 600,
-      color: '#ffffff',
+      letterSpacing: '-0.01em',
+      color: oliveColors.oliveDeep,
     },
     h4: {
-      fontFamily: 'var(--font-outfit), Inter, Arial, sans-serif',
+      fontFamily: headingFont,
       fontWeight: 500,
-      color: '#e8e9ea',
+      color: oliveColors.oliveDeep,
     },
     h5: {
-      fontFamily: 'var(--font-outfit), Inter, Arial, sans-serif',
-      fontWeight: 500,
-      color: '#e8e9ea',
+      fontFamily: bodyFont,
+      fontWeight: 600,
+      color: oliveColors.oliveDeep,
     },
     h6: {
-      fontFamily: 'var(--font-outfit), Inter, Arial, sans-serif',
-      fontWeight: 500,
-      color: '#e8e9ea',
+      fontFamily: bodyFont,
+      fontWeight: 600,
+      color: oliveColors.oliveDeep,
     },
-    body1: {
-      fontFamily: 'var(--font-outfit), Inter, Arial, sans-serif',
-      fontWeight: 400,
-      color: '#f8f9fa',
-      lineHeight: 1.6,
-    },
-    body2: {
-      fontFamily: 'var(--font-outfit), Inter, Arial, sans-serif',
-      fontWeight: 400,
-      color: '#e8e9ea',
-      lineHeight: 1.5,
-    },
+    body1: { color: oliveColors.oliveDeep, lineHeight: 1.75 },
+    body2: { color: oliveColors.oliveMuted, lineHeight: 1.65 },
+    button: { fontFamily: bodyFont, fontWeight: 600, textTransform: 'none' },
   },
   components: {
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: '#0a0a1a',
-          borderColor: '#496c99',
-        },
-      },
-    },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#0a0a1a',
-          borderColor: '#496c99',
+          backgroundColor: oliveColors.white,
+          borderColor: oliveColors.olivePale,
         },
       },
     },
     MuiChip: {
       styleOverrides: {
         root: {
-          backgroundColor: '#0a0a1a',
-          color: '#e8e9ea',
+          fontWeight: 500,
+          fontFamily: bodyFont,
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: 10,
         },
       },
     },
@@ -127,4 +106,4 @@ export default function ThemeRegistry({ children }: { children: React.ReactNode 
       {children}
     </ThemeProvider>
   );
-} 
+}

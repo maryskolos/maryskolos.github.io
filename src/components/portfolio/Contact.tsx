@@ -8,16 +8,15 @@ import { emailUtils } from '@/utils/email';
 const CONTACT_EMAIL = 'maryskolos@gmail.com';
 
 export default function Contact() {
+  const mailTemplate = emailUtils.templates.general(CONTACT_EMAIL);
+  const mailtoHref = `mailto:${mailTemplate.email}?subject=${encodeURIComponent(mailTemplate.subject)}&body=${encodeURIComponent(mailTemplate.body)}`;
+
   return (
-    <Box sx={commonStyles.section}>
-      <Typography variant="h2" component="h2" gutterBottom>
-        Contact
+    <Box>
+      <Typography variant="h5" component="h3" sx={{ mb: 3 }}>
+        Get in Touch
       </Typography>
-      
-      <Typography variant="body1" sx={{ mb: 4 }}>
-        Get in touch with me for opportunities, collaborations, or just to say hello!
-      </Typography>
-      
+
       <Box sx={commonStyles.grid.threeColumn}>
         <Button
           variant="contained"
@@ -28,27 +27,25 @@ export default function Contact() {
           fullWidth
           sx={commonStyles.button.primary}
         >
-          LinkedIn Profile
+          LinkedIn
         </Button>
-        
+
         <Button
           variant="contained"
+          component="a"
           startIcon={<Email />}
-          onClick={() => {
-            const template = emailUtils.templates.general(CONTACT_EMAIL);
-            emailUtils.openEmailClient(template.email, template.subject, template.body);
-          }}
+          href={mailtoHref}
           fullWidth
           sx={commonStyles.button.primary}
         >
-          Send Email
+          Email
         </Button>
-        
+
         <Button
           variant="contained"
           startIcon={<Download />}
           href="/resume.pdf"
-          target="_blank"
+          download="_Mary_Skolos.pdf"
           fullWidth
           sx={commonStyles.button.primary}
         >
@@ -57,4 +54,4 @@ export default function Contact() {
       </Box>
     </Box>
   );
-} 
+}

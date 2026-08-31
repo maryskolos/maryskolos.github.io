@@ -1,72 +1,76 @@
-import type { Metadata } from "next";
-import { Inter, Outfit, Space_Grotesk, Syne } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Figtree, Fraunces } from 'next/font/google';
+import './globals.css';
 import ThemeRegistry from '@/components/ThemeRegistry';
+import SkipLink from '@/components/SkipLink';
+import SiteChrome from '@/components/SiteChrome';
 
-const inter = Inter({ subsets: ["latin"] });
-const outfit = Outfit({ 
+const figtree = Figtree({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-outfit'
+  variable: '--font-figtree',
 });
-const spaceGrotesk = Space_Grotesk({ 
+
+const fraunces = Fraunces({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-space-grotesk'
-});
-const syne = Syne({ 
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-syne'
+  variable: '--font-fraunces',
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NODE_ENV === 'production' 
-    ? 'https://maryskolos.github.io' 
-    : 'http://localhost:3000'),
+  metadataBase: new URL(
+    process.env.NODE_ENV === 'production'
+      ? 'https://maryskolos.github.io'
+      : 'http://localhost:3000'
+  ),
   title: {
-    default: "Personal Resume Website",
-    template: "%s | Personal Resume Website",
+    default: 'Mary Skolos',
+    template: '%s | Mary Skolos',
   },
-  description: "Professional resume and portfolio website showcasing software development skills and experience",
+  description:
+    'Portfolio of Mary Skolos - full-stack software engineer. Concept demos, case studies, and writing on e-commerce, payments, and cloud-backed product work.',
   keywords: [
+    'SApp',
+    'plant trading',
+    'portfolio',
     'software engineer',
+    'Mary Skolos',
     'full stack',
     'react',
     'next.js',
-    'typescript',
-    'material-ui',
-    'portfolio',
-    'resume',
   ],
   authors: [{ name: 'Mary Skolos' }],
   creator: 'Mary Skolos',
   openGraph: {
     type: 'website',
-    url: process.env.NODE_ENV === 'production' 
-      ? 'https://maryskolos.github.io' 
-      : 'http://localhost:3000',
-    title: 'Personal Resume Website',
-    description: 'Professional resume and portfolio website showcasing software development skills and experience',
-    siteName: 'Personal Resume Website',
+    url:
+      process.env.NODE_ENV === 'production'
+        ? 'https://maryskolos.github.io'
+        : 'http://localhost:3000',
+    title: 'Mary Skolos',
+    description:
+      'Full-stack software engineer portfolio - concept demos, case studies, and writing on e-commerce, payments, and product engineering.',
+    siteName: 'Mary Skolos',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Personal Resume Website',
+        alt: 'SApp - Swipe. Share. Grow.',
       },
     ],
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Personal Resume Website',
-    description: 'Professional resume and portfolio website showcasing software development skills and experience',
+    title: 'Mary Skolos',
+    description:
+      'Full-stack software engineer portfolio - concept demos, case studies, and writing on e-commerce, payments, and product engineering.',
     images: ['/og-image.png'],
   },
   icons: {
-    icon: [{ url: '/favicon.ico' }],
+    icon: [{ url: '/sapp-logo.png' }],
+    apple: [{ url: '/sapp-logo.png' }],
   },
 };
 
@@ -76,10 +80,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${spaceGrotesk.variable} ${syne.variable}`}>
-      <body className={inter.className}>
+    <html lang="en" className={`${figtree.variable} ${fraunces.variable}`}>
+      <body className={figtree.className}>
+        <SkipLink />
         <ThemeRegistry>
-          {children}
+          <SiteChrome>{children}</SiteChrome>
         </ThemeRegistry>
       </body>
     </html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flash Sale Lab - Logo Preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      background: #0f1419;
+      color: #e2e8f0;
+      padding: 2rem;
+    }
+    h1 { font-size: 1.25rem; font-weight: 600; margin: 0 0 0.25rem; }
+    p { color: #94a3b8; margin: 0 0 2rem; font-size: 0.9rem; }
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+      max-width: 720px;
+    }
+    .panel {
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .panel.light {
+      background: #f5f0e6;
+      border-color: #c5cbb8;
+      color: #1e293b;
+    }
+    .panel.dark { background: #0f1419; }
+    .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+    .panel.light .label { color: #5a6a3f; }
+    img { display: block; max-width: 100%; height: auto; }
+    .mark { height: 32px; width: auto; }
+    .lockup { height: 40px; width: auto; }
+  </style>
+</head>
+<body>
+  <h1>Flash Sale Lab - Logo assets</h1>
+  <p>Split Pulse mark: amber inventory bar, chaotic requests (left), clean holds (right).</p>
+
+  <div class="grid">
+    <div class="panel light">
+      <div class="label">Nav mark - light background</div>
+      <img class="mark" src="./flash-sale-lab-mark.svg" alt="Flash Sale Lab mark" />
+    </div>
+
+    <div class="panel dark">
+      <div class="label">Nav mark - dark background</div>
+      <img class="mark" src="./flash-sale-lab-mark-dark.svg" alt="Flash Sale Lab mark on dark" />
+    </div>
+
+    <div class="panel dark">
+      <div class="label">Full lockup - hero / project card</div>
+      <img class="lockup" src="./flash-sale-lab-lockup.svg" alt="Flash Sale Lab lockup" />
+    </div>
+  </div>
+</body>
+</html>

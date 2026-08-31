@@ -1,98 +1,76 @@
-// Common styles used across components
-export const commonStyles = {
-  // Section containers
-  section: {
-    py: 8,
+import { oliveColors } from '@/constants/oliveTheme';
+
+/** Full-bleed section backgrounds; left clears side nav via --side-nav-gutter on main */
+export const sectionInsetX = {
+  pr: { xs: 2, sm: 3, md: 4 },
+  pl: {
+    xs: 2,
+    sm: 3,
+    md: 'calc(var(--side-nav-gutter, 0px) + 2rem)',
+    lg: 'calc(var(--side-nav-gutter, 0px) + 2rem)',
   },
-  
-  // Paper components
+} as const;
+
+export const commonStyles = {
+  section: {
+    py: { xs: 6, md: 10 },
+    ...sectionInsetX,
+  },
+
   paper: {
     p: 3,
-    textAlign: 'center' as const,
-    bgcolor: '#0a0a1a',
+    textAlign: 'left' as const,
+    bgcolor: oliveColors.white,
     border: '1px solid',
-    borderColor: '#496c99',
+    borderColor: oliveColors.olivePale,
+    borderRadius: 2,
     transition: 'all 0.3s ease',
   },
-  
-  // Buttons
+
   button: {
     primary: {
-      bgcolor: '#6d809f',
-      color: '#ffffff',
-      py: 2,
+      bgcolor: oliveColors.oliveMoss,
+      color: oliveColors.cream,
+      py: 1.5,
+      px: 3,
+      fontWeight: 600,
       '&:hover': {
-        bgcolor: '#9ca0b9',
+        bgcolor: oliveColors.oliveDeep,
       },
     },
     secondary: {
-      bgcolor: '#496c99',
-      color: '#ffffff',
-      px: 4,
+      bgcolor: 'transparent',
+      color: oliveColors.oliveDeep,
+      px: 3,
       py: 1.5,
-      fontSize: '1.1rem',
-      fontWeight: 500,
+      fontWeight: 600,
       border: '2px solid',
-      borderColor: '#496c99',
+      borderColor: oliveColors.oliveMoss,
       '&:hover': {
-        bgcolor: '#9ca0b9',
-        borderColor: '#9ca0b9',
-        transform: 'scale(1.05)',
+        bgcolor: oliveColors.olivePale,
       },
-      transition: 'all 0.2s ease-in-out',
     },
   },
-  
-  // Hover effects
+
   hover: {
     paper: {
       '&:hover': {
-        boxShadow: '0 8px 25px rgba(73, 108, 153, 0.15)',
-        transform: 'translateX(8px)',
-      },
-    },
-    card: {
-      '&:hover': {
-        transform: 'translateY(-4px)',
-        boxShadow: '0 8px 25px rgba(109, 128, 159, 0.3)',
+        boxShadow: '0 8px 25px rgba(61, 74, 50, 0.12)',
+        transform: 'translateY(-2px)',
       },
     },
   },
-  
-  // Separators
-  separator: {
-    height: '2px',
-    width: '80%',
-    mx: 'auto',
-    my: { xs: 4, md: 6 },
-    background: 'linear-gradient(90deg, transparent 0%, #496c99 20%, #496c99 80%, transparent 100%)',
-  },
-  
-  // Grid layouts
+
   grid: {
-    responsive: {
-      display: 'grid',
-      gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
-      gap: 3,
-    },
     threeColumn: {
       display: 'grid',
       gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' },
+      gap: 2,
+    },
+    twoColumn: {
+      display: 'grid',
+      gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
       gap: 3,
     },
-  },
-  
-  // Typography colors
-  text: {
-    primary: '#ffffff',
-    secondary: '#e8e9ea',
-    body: '#f8f9fa',
-  },
-  
-  // Icon sizes
-  icon: {
-    large: 60,
-    medium: 40,
-    small: 32,
   },
 };

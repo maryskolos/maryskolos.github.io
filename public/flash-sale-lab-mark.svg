@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" role="img" aria-label="Flash Sale Lab">
+  <title>Flash Sale Lab</title>
+  <!-- Inventory bar (single SKU) -->
+  <rect x="14" y="5" width="4" height="22" rx="1" fill="#F59E0B"/>
+  <!-- Naive strategy: overlapping / chaotic requests -->
+  <path d="M3 11.5H13" stroke="#1E293B" stroke-width="1.75" stroke-linecap="round"/>
+  <path d="M3 15H13" stroke="#1E293B" stroke-width="1.75" stroke-linecap="round" opacity="0.85"/>
+  <path d="M3 18.5H13" stroke="#1E293B" stroke-width="1.75" stroke-linecap="round" opacity="0.7"/>
+  <path d="M6 14.5H9" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Fixed strategy: clean, staggered holds -->
+  <path d="M19 10H29" stroke="#1E293B" stroke-width="1.75" stroke-linecap="round"/>
+  <path d="M19 16H29" stroke="#1E293B" stroke-width="1.75" stroke-linecap="round"/>
+  <path d="M19 22H29" stroke="#1E293B" stroke-width="1.75" stroke-linecap="round"/>
+  <circle cx="27" cy="10" r="1.25" fill="#22C55E"/>
+  <circle cx="27" cy="16" r="1.25" fill="#22C55E"/>
+  <circle cx="27" cy="22" r="1.25" fill="#22C55E"/>
+</svg>
