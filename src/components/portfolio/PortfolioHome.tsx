@@ -46,7 +46,7 @@ export default function PortfolioHome() {
             variant="h1"
             component="h1"
             sx={{
-              fontSize: { xs: '2.75rem', md: '3.5rem' },
+              fontSize: { xs: '2rem', sm: '2.35rem', md: '3.25rem' },
               letterSpacing: '-0.02em',
               mb: 1.5,
             }}
@@ -67,7 +67,7 @@ export default function PortfolioHome() {
         </Box>
 
         <Box id="demos" sx={{ mb: 2.5, scrollMarginTop: '5.5rem' }}>
-          <DemosMark height={34} />
+          <DemosMark height={28} />
           <Typography
             variant="body2"
             sx={{ color: oliveColors.oliveMuted, lineHeight: 1.65, mt: 1, maxWidth: 480 }}
@@ -154,7 +154,7 @@ export default function PortfolioHome() {
         </Box>
 
         <Box id="writing" sx={{ mt: { xs: 5, md: 6 }, mb: 2.5, scrollMarginTop: '5.5rem' }}>
-          <WritingMark height={34} />
+          <WritingMark height={28} />
           <Typography
             variant="body2"
             sx={{ color: oliveColors.oliveMuted, lineHeight: 1.65, mt: 1, maxWidth: 480 }}

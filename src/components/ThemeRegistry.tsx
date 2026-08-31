@@ -39,28 +39,51 @@ const theme = createTheme({
       fontWeight: 600,
       letterSpacing: '-0.02em',
       color: oliveColors.oliveDeep,
+      fontSize: '2rem',
+      lineHeight: 1.15,
+      '@media (min-width:900px)': {
+        fontSize: '3.25rem',
+      },
     },
     h2: {
       fontFamily: headingFont,
       fontWeight: 600,
       letterSpacing: '-0.015em',
       color: oliveColors.oliveDeep,
+      fontSize: '1.5rem',
+      lineHeight: 1.2,
+      '@media (min-width:900px)': {
+        fontSize: '2rem',
+      },
     },
     h3: {
       fontFamily: headingFont,
       fontWeight: 600,
       letterSpacing: '-0.01em',
       color: oliveColors.oliveDeep,
+      fontSize: '1.2rem',
+      lineHeight: 1.25,
+      '@media (min-width:900px)': {
+        fontSize: '1.5rem',
+      },
     },
     h4: {
       fontFamily: headingFont,
       fontWeight: 500,
       color: oliveColors.oliveDeep,
+      fontSize: '1.1rem',
+      '@media (min-width:900px)': {
+        fontSize: '1.25rem',
+      },
     },
     h5: {
       fontFamily: bodyFont,
       fontWeight: 600,
       color: oliveColors.oliveDeep,
+      fontSize: '1.05rem',
+      '@media (min-width:900px)': {
+        fontSize: '1.25rem',
+      },
     },
     h6: {
       fontFamily: bodyFont,

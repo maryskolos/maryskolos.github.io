@@ -64,11 +64,17 @@ export default function Hero() {
             >
               SApp
             </Typography>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Box
+              component="img"
               src="/sapp-logo.png"
               alt="SApp"
-              style={{ height: 72, width: 'auto', marginBottom: 16 }}
+              sx={{
+                height: { xs: 48, md: 72 },
+                width: 'auto',
+                mb: 2,
+                display: 'block',
+                mx: { xs: 'auto', md: 0 },
+              }}
             />
             <Typography
               variant="h3"
