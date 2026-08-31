@@ -14,7 +14,7 @@ export const SCREENS = [
   { id: 'profile-apple', type: 'profile' as const, profileIndex: 2 },
 ];
 
-const INTERVAL_MS = 4000;
+const INTERVAL_MS = 2800;
 
 interface AppCarouselProps {
   activeIndex: number;

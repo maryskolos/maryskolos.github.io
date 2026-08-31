@@ -16,7 +16,7 @@ export default function FlashSaleExplainer() {
         borderTop: `1px solid ${flashSaleColors.border}`,
       }}
     >
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Typography
           variant="overline"
           sx={{

@@ -41,11 +41,20 @@ export default function Hero() {
           sx={{
             display: 'grid',
             gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-            gap: { xs: 4, md: 6 },
+            gridTemplateRows: { xs: 'auto', md: 'auto auto' },
+            columnGap: { xs: 4, md: 6 },
+            rowGap: { xs: 2, md: 0 },
             alignItems: 'center',
           }}
         >
-          <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          <Box
+            sx={{
+              textAlign: { xs: 'center', md: 'left' },
+              gridColumn: { md: 1 },
+              gridRow: { md: 1 },
+              alignSelf: { md: 'center' },
+            }}
+          >
             <Typography
               id="sapp-heading"
               variant="h2"
@@ -98,7 +107,17 @@ export default function Hero() {
             </Typography>
           </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', overflow: 'visible', py: 4 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
+              overflow: 'visible',
+              pt: { xs: 2, md: 4 },
+              gridColumn: { md: 2 },
+              gridRow: { md: 1 },
+            }}
+          >
             <PhoneFrame>
               {demoMode ? (
                 <InteractiveDemo
@@ -110,41 +129,53 @@ export default function Hero() {
                 <AppCarousel activeIndex={activeIndex} onIndexChange={setActiveIndex} />
               )}
             </PhoneFrame>
+          </Box>
 
-            {!demoMode ? (
-              <>
-                <div className="sapp-carousel-dots" role="group" aria-label="App screens">
-                  {SCREENS.map((screen, index) => (
-                    <button
-                      key={screen.id}
-                      className={`sapp-dot ${index === activeIndex ? 'active' : ''}`}
-                      onClick={() => setActiveIndex(index)}
-                      aria-label={`Screen ${index + 1} of ${SCREENS.length}`}
-                      aria-current={index === activeIndex ? 'true' : undefined}
-                      type="button"
-                    />
-                  ))}
-                </div>
+          <Box
+            className="sapp-phone-controls"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%',
+              gridColumn: { md: 2 },
+              gridRow: { md: 2 },
+            }}
+          >
+            <div
+              className="sapp-carousel-dots"
+              role="group"
+              aria-label="App screens"
+              aria-hidden={demoMode}
+              style={demoMode ? { visibility: 'hidden', pointerEvents: 'none' } : undefined}
+            >
+              {SCREENS.map((screen, index) => (
                 <button
+                  key={screen.id}
+                  className={`sapp-dot ${index === activeIndex ? 'active' : ''}`}
+                  onClick={() => setActiveIndex(index)}
+                  aria-label={`Screen ${index + 1} of ${SCREENS.length}`}
+                  aria-current={index === activeIndex ? 'true' : undefined}
                   type="button"
-                  className="sapp-demo-launch-btn"
-                  onClick={() => setDemoMode(true)}
-                >
-                  Demo SApp
-                </button>
-              </>
-            ) : (
-              <button
-                type="button"
-                className="sapp-demo-launch-btn sapp-demo-launch-btn--secondary"
-                onClick={() => {
+                  tabIndex={demoMode ? -1 : undefined}
+                  disabled={demoMode}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              className={`sapp-demo-launch-btn${demoMode ? ' sapp-demo-launch-btn--secondary' : ''}`}
+              onClick={() => {
+                if (demoMode) {
                   setDemoMode(false);
                   setDemoSession((s) => s + 1);
-                }}
-              >
-                Back to preview
-              </button>
-            )}
+                } else {
+                  setDemoMode(true);
+                }
+              }}
+            >
+              {demoMode ? 'Back to preview' : 'Demo SApp'}
+            </button>
           </Box>
         </Box>
 
