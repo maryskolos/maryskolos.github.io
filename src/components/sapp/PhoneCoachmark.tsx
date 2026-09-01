@@ -42,16 +42,25 @@ interface PhoneCoachmarkContextValue {
   setCoachmark: (state: PhoneCoachmarkState | null) => void;
   coachmark: PhoneCoachmarkState | null;
   frameRef: RefObject<HTMLDivElement | null>;
+  immersive: boolean;
 }
 
 const PhoneCoachmarkContext = createContext<PhoneCoachmarkContextValue | null>(null);
 
+function resolveSide(side: PhoneCoachmarkSide, immersive: boolean): PhoneCoachmarkSide {
+  if (!immersive) return side;
+  if (side === 'left' || side === 'right') return 'bottom';
+  return side;
+}
+
 export function PhoneCoachmarkProvider({
   children,
   frameRef,
+  immersive = false,
 }: {
   children: ReactNode;
   frameRef: RefObject<HTMLDivElement | null>;
+  immersive?: boolean;
 }) {
   const [coachmark, setCoachmark] = useState<PhoneCoachmarkState | null>(null);
 
@@ -60,8 +69,9 @@ export function PhoneCoachmarkProvider({
       coachmark,
       setCoachmark,
       frameRef,
+      immersive,
     }),
-    [coachmark, frameRef]
+    [coachmark, frameRef, immersive]
   );
 
   return (
@@ -72,9 +82,11 @@ export function PhoneCoachmarkProvider({
 function useAnchoredCoachmarkStyle(
   anchorEl: HTMLElement | null,
   side: PhoneCoachmarkSide,
-  frameRef: RefObject<HTMLDivElement | null>
+  frameRef: RefObject<HTMLDivElement | null>,
+  immersive: boolean
 ) {
   const [style, setStyle] = useState<CSSProperties | null>(null);
+  const effectiveSide = resolveSide(side, immersive);
 
   useLayoutEffect(() => {
     const frame = frameRef.current;
@@ -86,52 +98,83 @@ function useAnchoredCoachmarkStyle(
     const update = () => {
       const frameRect = frame.getBoundingClientRect();
       const anchorRect = anchorEl.getBoundingClientRect();
+      const frameW = frameRect.width;
+      const frameH = frameRect.height;
       const centerY = anchorRect.top + anchorRect.height / 2 - frameRect.top;
       const centerX = anchorRect.left + anchorRect.width / 2 - frameRect.left;
       const anchorLeft = anchorRect.left - frameRect.left;
       const anchorRight = anchorRect.right - frameRect.left;
       const anchorTop = anchorRect.top - frameRect.top;
       const anchorBottom = anchorRect.bottom - frameRect.top;
-      const gap = 8;
+      const gap = immersive ? 6 : 8;
+      const pad = immersive ? 10 : 0;
+      const maxW = immersive ? 150 : effectiveSide === 'top' || effectiveSide === 'bottom' ? 168 : 132;
 
-      switch (side) {
+      let next: CSSProperties;
+
+      switch (effectiveSide) {
         case 'left':
-          setStyle({
+          next = {
             top: centerY,
             left: anchorLeft - gap,
             transform: 'translate(-100%, -50%)',
             width: 'max-content',
-            maxWidth: 132,
-          });
+            maxWidth: maxW,
+          };
           break;
         case 'right':
-          setStyle({
+          next = {
             top: centerY,
             left: anchorRight + gap,
             transform: 'translate(0, -50%)',
             width: 'max-content',
-            maxWidth: 132,
-          });
+            maxWidth: maxW,
+          };
           break;
         case 'top':
-          setStyle({
+          next = {
             top: anchorTop - gap,
             left: centerX,
             transform: 'translate(-50%, -100%)',
             width: 'max-content',
-            maxWidth: 168,
-          });
+            maxWidth: maxW,
+          };
           break;
         case 'bottom':
-          setStyle({
+        default:
+          next = {
             top: anchorBottom + gap,
             left: centerX,
             transform: 'translate(-50%, 0)',
             width: 'max-content',
-            maxWidth: 168,
-          });
+            maxWidth: maxW,
+          };
           break;
       }
+
+      if (immersive) {
+        const halfMax = maxW / 2;
+        const estH = 56;
+        let left = typeof next.left === 'number' ? next.left : centerX;
+        let top = typeof next.top === 'number' ? next.top : 0;
+
+        if (effectiveSide === 'top' || effectiveSide === 'bottom') {
+          left = Math.min(Math.max(left, halfMax + pad), frameW - halfMax - pad);
+          if (effectiveSide === 'bottom') {
+            top = Math.min(top, frameH - estH - pad);
+            top = Math.max(top, pad);
+          } else {
+            top = Math.max(top, estH + pad);
+            top = Math.min(top, frameH - pad);
+          }
+        } else {
+          top = Math.min(Math.max(top, pad + 20), frameH - pad - 20);
+        }
+
+        next = { ...next, left, top };
+      }
+
+      setStyle(next);
     };
 
     update();
@@ -150,14 +193,15 @@ function useAnchoredCoachmarkStyle(
       window.removeEventListener('resize', update);
       scrollParent?.removeEventListener('scroll', update);
     };
-  }, [anchorEl, side, frameRef]);
+  }, [anchorEl, effectiveSide, frameRef, immersive]);
 
-  return style;
+  return { style, effectiveSide };
 }
 
 export function PhoneCoachmarkLayer() {
   const context = useContext(PhoneCoachmarkContext);
   const coachmark = context?.coachmark;
+  const immersive = context?.immersive ?? false;
   const [anchorTick, setAnchorTick] = useState(0);
   const anchorEl = coachmark?.anchorRef?.current ?? null;
 
@@ -171,15 +215,16 @@ export function PhoneCoachmarkLayer() {
     };
   }, [coachmark, anchorEl, anchorTick]);
 
-  const anchoredStyle = useAnchoredCoachmarkStyle(
+  const { style: anchoredStyle, effectiveSide } = useAnchoredCoachmarkStyle(
     anchorEl,
     coachmark?.side ?? 'left',
-    context?.frameRef ?? { current: null }
+    context?.frameRef ?? { current: null },
+    immersive
   );
 
   if (!coachmark) return null;
 
-  const { text, placement, anchorRef, side } = coachmark;
+  const { text, placement, anchorRef } = coachmark;
   const isAnchored = !!anchorRef && !!anchorEl && !!anchoredStyle;
 
   return (
@@ -187,8 +232,12 @@ export function PhoneCoachmarkLayer() {
       <div
         className={
           isAnchored
-            ? `sapp-phone-coachmark sapp-phone-coachmark--anchored sapp-phone-coachmark--side-${side}`
-            : `sapp-phone-coachmark sapp-phone-coachmark--${placement}`
+            ? `sapp-phone-coachmark sapp-phone-coachmark--anchored sapp-phone-coachmark--side-${effectiveSide}${
+                immersive ? ' sapp-phone-coachmark--immersive' : ''
+              }`
+            : `sapp-phone-coachmark sapp-phone-coachmark--${placement}${
+                immersive ? ' sapp-phone-coachmark--immersive' : ''
+              }`
         }
         style={isAnchored ? anchoredStyle ?? undefined : undefined}
       >

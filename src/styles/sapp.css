@@ -35,6 +35,122 @@
   overflow: visible;
 }
 
+/* Mobile preview: smaller bezel so the hero isn't oversized */
+@media (max-width: 899px) {
+  .sapp-phone--preview {
+    width: min(100%, 230px);
+  }
+
+  .sapp-phone--preview .sapp-phone-frame {
+    min-height: 0;
+  }
+}
+
+/* Fullscreen immersive demo (mobile) */
+.sapp-immersive-root {
+  --sapp-immersive-bar: 52px;
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: flex;
+  flex-direction: column;
+  background: rgba(45, 52, 38, 0.94);
+  padding:
+    env(safe-area-inset-top, 0)
+    env(safe-area-inset-right, 0)
+    env(safe-area-inset-bottom, 0)
+    env(safe-area-inset-left, 0);
+}
+
+.sapp-immersive-bar {
+  flex: 0 0 auto;
+  min-height: var(--sapp-immersive-bar);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(245, 240, 230, 0.12);
+}
+
+.sapp-immersive-title {
+  font-family: var(--font-fraunces), "Fraunces", Georgia, serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--sapp-cream);
+  letter-spacing: 0.01em;
+}
+
+.sapp-immersive-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sapp-immersive-back {
+  appearance: none;
+  border: 1px solid rgba(245, 240, 230, 0.35);
+  background: transparent;
+  color: var(--sapp-cream);
+  font-family: var(--font-figtree), "Figtree", system-ui, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.sapp-immersive-back:hover {
+  background: rgba(245, 240, 230, 0.1);
+}
+
+.sapp-immersive-stage {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 12px 20px;
+}
+
+.sapp-phone--immersive {
+  width: min(
+    360px,
+    calc(100% - 8px),
+    calc((100dvh - var(--sapp-immersive-bar) - 40px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) * 9 / 19.5)
+  );
+  aspect-ratio: 9 / 19.5;
+  height: auto;
+  max-height: calc(
+    100dvh - var(--sapp-immersive-bar) - 40px - env(safe-area-inset-top, 0px) -
+      env(safe-area-inset-bottom, 0px)
+  );
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sapp-phone-frame--immersive,
+.sapp-phone--immersive .sapp-phone-frame {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: unset;
+  overflow: hidden;
+}
+
+.sapp-phone--immersive .sapp-phone-coachmark-layer {
+  overflow: hidden;
+}
+
+.sapp-phone-coachmark--immersive .sapp-speech-bubble.sapp-speech-bubble--phone {
+  font-size: 0.72rem;
+  padding: 8px 10px;
+  max-width: 150px;
+}
+
 .sapp-phone-coachmark-layer {
   position: absolute;
   inset: 0;

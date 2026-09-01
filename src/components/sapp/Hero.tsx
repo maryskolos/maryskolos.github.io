@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
-import { Box, Typography, Container } from '@mui/material';
+import { Box, Typography, Container, useMediaQuery, useTheme, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { oliveColors } from '@/constants/oliveTheme';
 import { sectionInsetX } from '@/styles/commonStyles';
 import PhoneFrame from '@/components/sapp/PhoneFrame';
@@ -11,9 +13,32 @@ import InteractiveDemo from '@/components/sapp/InteractiveDemo';
 
 export default function Hero() {
   const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'), { defaultMatches: false });
   const [activeIndex, setActiveIndex] = useState(0);
   const [demoMode, setDemoMode] = useState(false);
   const [demoSession, setDemoSession] = useState(0);
+  const [portalReady, setPortalReady] = useState(false);
+
+  const immersive = demoMode && isMobile;
+
+  useEffect(() => {
+    setPortalReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!immersive) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [immersive]);
+
+  const exitDemo = () => {
+    setDemoMode(false);
+    setDemoSession((s) => s + 1);
+  };
 
   const handleRedo = () => {
     setDemoSession((s) => s + 1);
@@ -24,6 +49,42 @@ export default function Hero() {
     setDemoSession((s) => s + 1);
     router.push('/#about');
   };
+
+  const demoPhone = (
+    <PhoneFrame immersive>
+      <InteractiveDemo
+        key={demoSession}
+        onRedo={handleRedo}
+        onLearnAboutMe={handleLearnAboutMe}
+      />
+    </PhoneFrame>
+  );
+
+  const immersiveOverlay =
+    portalReady &&
+    immersive &&
+    createPortal(
+      <div className="sapp-immersive-root" role="dialog" aria-modal="true" aria-label="SApp demo">
+        <div className="sapp-immersive-bar">
+          <span className="sapp-immersive-title">SApp demo</span>
+          <div className="sapp-immersive-actions">
+            <button type="button" className="sapp-immersive-back" onClick={exitDemo}>
+              Back to preview
+            </button>
+            <IconButton
+              aria-label="Close demo"
+              onClick={exitDemo}
+              size="small"
+              sx={{ color: oliveColors.cream }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </div>
+        </div>
+        <div className="sapp-immersive-stage">{demoPhone}</div>
+      </div>,
+      document.body
+    );
 
   return (
     <Box
@@ -118,8 +179,8 @@ export default function Hero() {
               gridRow: { md: 1 },
             }}
           >
-            <PhoneFrame>
-              {demoMode ? (
+            <PhoneFrame className="sapp-phone--preview">
+              {demoMode && !isMobile ? (
                 <InteractiveDemo
                   key={demoSession}
                   onRedo={handleRedo}
@@ -146,8 +207,10 @@ export default function Hero() {
               className="sapp-carousel-dots"
               role="group"
               aria-label="App screens"
-              aria-hidden={demoMode}
-              style={demoMode ? { visibility: 'hidden', pointerEvents: 'none' } : undefined}
+              aria-hidden={demoMode && !isMobile}
+              style={
+                demoMode && !isMobile ? { visibility: 'hidden', pointerEvents: 'none' } : undefined
+              }
             >
               {SCREENS.map((screen, index) => (
                 <button
@@ -157,25 +220,26 @@ export default function Hero() {
                   aria-label={`Screen ${index + 1} of ${SCREENS.length}`}
                   aria-current={index === activeIndex ? 'true' : undefined}
                   type="button"
-                  tabIndex={demoMode ? -1 : undefined}
-                  disabled={demoMode}
+                  tabIndex={demoMode && !isMobile ? -1 : undefined}
+                  disabled={demoMode && !isMobile}
                 />
               ))}
             </div>
-            <button
-              type="button"
-              className={`sapp-demo-launch-btn${demoMode ? ' sapp-demo-launch-btn--secondary' : ''}`}
-              onClick={() => {
-                if (demoMode) {
-                  setDemoMode(false);
-                  setDemoSession((s) => s + 1);
-                } else {
-                  setDemoMode(true);
-                }
-              }}
-            >
-              {demoMode ? 'Back to preview' : 'Demo SApp'}
-            </button>
+            {!(demoMode && isMobile) && (
+              <button
+                type="button"
+                className={`sapp-demo-launch-btn${demoMode ? ' sapp-demo-launch-btn--secondary' : ''}`}
+                onClick={() => {
+                  if (demoMode) {
+                    exitDemo();
+                  } else {
+                    setDemoMode(true);
+                  }
+                }}
+              >
+                {demoMode ? 'Back to preview' : 'Demo SApp'}
+              </button>
+            )}
           </Box>
         </Box>
 
@@ -193,6 +257,8 @@ export default function Hero() {
           SApp concept demo
         </Typography>
       </Container>
+
+      {immersiveOverlay}
     </Box>
   );
 }
