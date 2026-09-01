@@ -30,7 +30,9 @@ export default function PhoneFrame({
         >
           <div className="sapp-phone-notch" aria-hidden="true" />
           <PhoneCoachmarkLayer />
-          <div className="sapp-phone-screen">{children}</div>
+          <div className={`sapp-phone-screen${immersive ? ' sapp-phone-screen--immersive' : ''}`}>
+            {children}
+          </div>
         </div>
       </div>
     </PhoneCoachmarkProvider>

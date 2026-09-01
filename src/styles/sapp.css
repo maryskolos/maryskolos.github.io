@@ -35,96 +35,79 @@
   overflow: visible;
 }
 
-/* Mobile preview: smaller bezel so the hero isn't oversized */
+/* Mobile preview: proportional phone that fits the viewport width */
 @media (max-width: 899px) {
   .sapp-phone--preview {
-    width: min(100%, 230px);
+    width: min(92vw, 300px);
   }
 
   .sapp-phone--preview .sapp-phone-frame {
     min-height: 0;
+    aspect-ratio: 9 / 19.5;
+    height: auto;
   }
 }
 
-/* Fullscreen immersive demo (mobile) */
+/* Fullscreen immersive demo (mobile) — edge-to-edge app shell */
 .sapp-immersive-root {
-  --sapp-immersive-bar: 52px;
   position: fixed;
   inset: 0;
+  width: 100%;
+  height: 100dvh;
   z-index: 1400;
   display: flex;
   flex-direction: column;
-  background: rgba(45, 52, 38, 0.94);
-  padding:
-    env(safe-area-inset-top, 0)
-    env(safe-area-inset-right, 0)
-    env(safe-area-inset-bottom, 0)
-    env(safe-area-inset-left, 0);
+  background: var(--sapp-cream);
+  padding: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
 }
 
-.sapp-immersive-bar {
-  flex: 0 0 auto;
-  min-height: var(--sapp-immersive-bar);
+.sapp-immersive-close {
+  position: absolute;
+  top: max(10px, env(safe-area-inset-top, 10px));
+  left: max(10px, env(safe-area-inset-left, 10px));
+  z-index: 1450;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 8px 12px;
-  border-bottom: 1px solid rgba(245, 240, 230, 0.12);
-}
-
-.sapp-immersive-title {
-  font-family: var(--font-fraunces), "Fraunces", Georgia, serif;
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--sapp-cream);
-  letter-spacing: 0.01em;
-}
-
-.sapp-immersive-actions {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.sapp-immersive-back {
-  appearance: none;
-  border: 1px solid rgba(245, 240, 230, 0.35);
-  background: transparent;
-  color: var(--sapp-cream);
-  font-family: var(--font-figtree), "Figtree", system-ui, sans-serif;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 999px;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(61, 74, 50, 0.12);
+  color: var(--sapp-olive-deep);
   cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
-.sapp-immersive-back:hover {
-  background: rgba(245, 240, 230, 0.1);
+.sapp-immersive-close:hover {
+  background: rgba(61, 74, 50, 0.2);
+}
+
+.sapp-immersive-close:focus-visible {
+  outline: 2px solid var(--sapp-olive-moss);
+  outline-offset: 2px;
 }
 
 .sapp-immersive-stage {
   flex: 1 1 auto;
   min-height: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 12px 20px;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
 }
 
 .sapp-phone--immersive {
-  width: min(
-    360px,
-    calc(100% - 8px),
-    calc((100dvh - var(--sapp-immersive-bar) - 40px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) * 9 / 19.5)
-  );
-  aspect-ratio: 9 / 19.5;
-  height: auto;
-  max-height: calc(
-    100dvh - var(--sapp-immersive-bar) - 40px - env(safe-area-inset-top, 0px) -
-      env(safe-area-inset-bottom, 0px)
-  );
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  aspect-ratio: unset;
   margin: 0;
   overflow: hidden;
   display: flex;
@@ -139,6 +122,19 @@
   height: 100%;
   aspect-ratio: unset;
   overflow: hidden;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  background: var(--sapp-cream);
+}
+
+.sapp-phone--immersive .sapp-phone-notch {
+  display: none;
+}
+
+.sapp-phone-screen--immersive {
+  border-radius: 0;
 }
 
 .sapp-phone--immersive .sapp-phone-coachmark-layer {
@@ -146,9 +142,9 @@
 }
 
 .sapp-phone-coachmark--immersive .sapp-speech-bubble.sapp-speech-bubble--phone {
-  font-size: 0.72rem;
-  padding: 8px 10px;
-  max-width: 150px;
+  font-size: 0.8rem;
+  padding: 9px 11px;
+  max-width: min(168px, 72vw);
 }
 
 .sapp-phone-coachmark-layer {

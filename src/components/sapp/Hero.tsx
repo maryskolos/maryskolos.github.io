@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
-import { Box, Typography, Container, useMediaQuery, useTheme, IconButton } from '@mui/material';
+import { Box, Typography, Container, useMediaQuery, useTheme } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { oliveColors } from '@/constants/oliveTheme';
 import { sectionInsetX } from '@/styles/commonStyles';
@@ -65,22 +65,14 @@ export default function Hero() {
     immersive &&
     createPortal(
       <div className="sapp-immersive-root" role="dialog" aria-modal="true" aria-label="SApp demo">
-        <div className="sapp-immersive-bar">
-          <span className="sapp-immersive-title">SApp demo</span>
-          <div className="sapp-immersive-actions">
-            <button type="button" className="sapp-immersive-back" onClick={exitDemo}>
-              Back to preview
-            </button>
-            <IconButton
-              aria-label="Close demo"
-              onClick={exitDemo}
-              size="small"
-              sx={{ color: oliveColors.cream }}
-            >
-              <CloseIcon fontSize="small" />
-            </IconButton>
-          </div>
-        </div>
+        <button
+          type="button"
+          className="sapp-immersive-close"
+          onClick={exitDemo}
+          aria-label="Close demo"
+        >
+          <CloseIcon fontSize="small" />
+        </button>
         <div className="sapp-immersive-stage">{demoPhone}</div>
       </div>,
       document.body
@@ -173,8 +165,8 @@ export default function Hero() {
               display: 'flex',
               justifyContent: 'center',
               width: '100%',
-              overflow: 'visible',
-              pt: { xs: 2, md: 4 },
+              overflow: 'hidden',
+              pt: { xs: 1.5, md: 4 },
               gridColumn: { md: 2 },
               gridRow: { md: 1 },
             }}
